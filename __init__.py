@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """ComfyUI custom node pack: durable, keyed, geometry-robust image watermarking."""
 import os
 import sys

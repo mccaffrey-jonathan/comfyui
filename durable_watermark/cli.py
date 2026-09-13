@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Command line interface, so inference providers can mark/verify outside ComfyUI.
 
     python -m durable_watermark embed  in.png out.png --secret env:WM_SECRET --payload 0xC0FFEE42

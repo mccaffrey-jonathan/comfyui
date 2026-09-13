@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """
 Keyed radial + angular-harmonic spread-spectrum image watermark ("RingMark").
 

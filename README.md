@@ -123,6 +123,10 @@ result = detect(marked, cfg)   # .detected, .z_score, .p_value, .payload_hex, .s
 cd custom_nodes/comfyui_durable_watermark && python -m pytest -q
 ```
 
-## License
+## License and disclaimer
 
-MIT. Pure numpy/scipy; no third-party watermark code or weights.
+Apache License 2.0 (see `LICENSE` and `NOTICE`). Pure numpy/scipy; no third-party watermark
+code or weights. The software is provided as is, without warranty or liability, and **without any
+promise of regulatory compliance**: it does not make you compliant with the EU AI Act, SB 942 or
+any other rule, it does not guarantee the mark cannot be removed or forged, and its statistics
+are not guaranteed correct for any particular image. See `NOTICE`.

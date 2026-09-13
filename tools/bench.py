@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 import os, sys, time, io, math
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
