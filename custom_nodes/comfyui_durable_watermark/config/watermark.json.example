@@ -1,0 +1,7 @@
+{
+  "_comment": "Copy to watermark.json (git-ignored). Server-side defaults for the durable watermark.",
+  "secret": "env:COMFYUI_WATERMARK_SECRET",
+  "payload": "my-inference-provider",
+  "strength": 1.0,
+  "enforce": false
+}

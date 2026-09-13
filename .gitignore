@@ -5,7 +5,7 @@ __pycache__/
 !/input/example.png
 /models/
 /temp/
-/custom_nodes/
+/custom_nodes/*
 !custom_nodes/example_node.py.example
 extra_model_paths.yaml
 /.vs
@@ -24,3 +24,7 @@ web_custom_versions/
 openapi.yaml
 filtered-openapi.yaml
 uv.lock
+
+# Bundled compliance node packs (tracked in this fork)
+!/custom_nodes/comfyui_durable_watermark/
+!/custom_nodes/comfyui_content_credentials/
