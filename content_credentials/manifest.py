@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Build and sign C2PA manifests for AI-generated images.
 
 The manifest layout follows what Adobe Firefly, OpenAI and Google emit in 2026:

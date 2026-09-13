@@ -1,0 +1,25 @@
+comfyui_durable_watermark and comfyui_content_credentials
+Copyright 2026 the contributors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use these files except in compliance with the License. You may obtain a copy
+of the License in the LICENSE file or at http://www.apache.org/licenses/LICENSE-2.0
+
+NO COMPLIANCE WARRANTY. This software is provided "AS IS", WITHOUT WARRANTIES
+OR CONDITIONS OF ANY KIND (License, Section 7), and the contributors accept no
+liability for any damages arising from its use (License, Section 8). In
+particular, nothing in this software or its documentation is legal advice, and
+nothing is a representation, warranty or promise that its use makes any
+product, service, output or organisation compliant with the EU AI Act, the
+California AI Transparency Act (SB 942 / AB 853), or any other law, regulation,
+standard, code of practice or contract; that any watermark it embeds cannot be
+removed, forged or misdetected; that any Content Credential it writes will be
+accepted as valid or trusted by any verifier; or that its statistical outputs
+(z-scores, p-values, decoded payloads) are correct for any particular image.
+Regulatory obligations, certificate trust, key management and the choice of
+detection thresholds remain entirely the responsibility of the user.
+
+Third-party components used at run time are distributed under their own
+licenses: c2pa-python (MIT OR Apache-2.0), cryptography (Apache-2.0 OR BSD-3),
+numpy (BSD-3), scipy (BSD-3), Pillow (MIT-CMU). ComfyUI itself is GPL-3.0; these
+packs are separate works that use its public custom-node API.

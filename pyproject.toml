@@ -1,8 +1,10 @@
 [project]
 name = "comfyui-content-credentials"
 description = "Signed C2PA Content Credentials (manifests declaring AI-generated media, SB 942 disclosure fields, do-not-train, watermark soft binding, encrypted private assertions) for ComfyUI outputs."
+
 version = "0.1.0"
-license = { file = "LICENSE" }
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.10"
 dependencies = ["c2pa-python>=0.37", "cryptography>=41", "Pillow", "numpy"]
 

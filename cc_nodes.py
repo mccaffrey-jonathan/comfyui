@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """ComfyUI nodes: C2PA Content Credentials for generated images (V3 node API)."""
 from __future__ import annotations
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Generate a two-tier TEST certificate chain (root CA -> claim-signing leaf) for C2PA.
 
 The C2PA SDK rejects single self-signed leaf certificates, so we mint a tiny
