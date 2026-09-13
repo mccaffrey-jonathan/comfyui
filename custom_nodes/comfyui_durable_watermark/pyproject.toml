@@ -1,8 +1,10 @@
 [project]
 name = "comfyui-durable-watermark"
 description = "Durable, keyed, rotation/scale/translation/colour-robust invisible image watermark (pure numpy) for AI-content transparency (EU AI Act Art. 50, California SB 942)."
+
 version = "0.1.0"
-license = { file = "LICENSE" }
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.25", "scipy", "Pillow"]
 

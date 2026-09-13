@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Encrypted private assertion payloads (AES-256-GCM, key from a passphrase via HKDF-SHA256).
 
 C2PA manifests are *signed*, not encrypted: everything in them is public.  A

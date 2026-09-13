@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """
 Secret / payload resolution for the durable watermark.
 

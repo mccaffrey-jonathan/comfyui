@@ -15,7 +15,8 @@ The research reports in this folder:
 
 Research date: 13 September 2026. The reports were compiled with web search from a
 sandbox that blocked many primary sources; claims are cited and the caveats are
-stated inline. None of this is legal advice.
+stated inline. None of this is legal advice. Both node packs are released under the Apache License 2.0
+with a NOTICE that disclaims warranty, liability and any promise of regulatory compliance.
 
 ## Why two layers
 

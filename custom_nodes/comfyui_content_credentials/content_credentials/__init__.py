@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """C2PA Content Credentials helpers for ComfyUI (signing, manifests, verification, private assertions)."""
 from .manifest import (  # noqa: F401
     DIGITAL_SOURCE_TYPES,

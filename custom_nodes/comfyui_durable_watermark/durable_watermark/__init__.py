@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Durable, keyed, rotation/scale/translation-robust image watermark (pure numpy)."""
 from .core import (  # noqa: F401
     SCHEME_ID,

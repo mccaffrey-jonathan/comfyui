@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Read and summarise Content Credentials from image files/bytes."""
 from __future__ import annotations
 

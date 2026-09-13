@@ -122,6 +122,8 @@ small custom node; `content_credentials.manifest.sign_image_bytes` accepts any
 cd custom_nodes/comfyui_content_credentials && python -m pytest -q
 ```
 
-## License
+## License and disclaimer
 
-MIT.
+Apache License 2.0 (see `LICENSE` and `NOTICE`). Provided as is, without warranty or liability,
+and **without any promise of regulatory compliance** or that a manifest will be accepted as valid
+or trusted by any verifier. Nothing here is legal advice. See `NOTICE`.

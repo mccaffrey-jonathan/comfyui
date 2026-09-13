@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Unit tests for the durable watermark core (numpy only; no ComfyUI import)."""
 import os
 import sys

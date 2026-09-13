@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Signer configuration: certificate chain + private key from files, env vars or config."""
 from __future__ import annotations
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """Tests for the Content Credentials helpers (no ComfyUI import; needs c2pa-python + cryptography)."""
 import io
 import json

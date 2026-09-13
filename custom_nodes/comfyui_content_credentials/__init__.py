@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 """ComfyUI custom node pack: C2PA Content Credentials for AI-generated images."""
 import os
 import sys

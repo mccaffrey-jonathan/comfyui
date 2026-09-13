@@ -168,7 +168,7 @@ footer { padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1p
       <p>Why this survives edits: the DFT magnitude ignores translation, so crops keep the rings aligned; a rotation only shifts each harmonic's phase by a known multiple of the angle, which the detector searches in 2° steps; a mirror conjugates the harmonics; uniform rescaling moves the rings radially and is found by a one-dimensional scan from 0.4× to 2.5×; hue and saturation never touch luminance, and brightness, contrast and gamma are removed by detrending.</p>
       <p>The detector reports an honest number. Every image is also scored with 96 <em>wrong</em> keys put through the identical search, and the z-score is measured against that distribution, so the geometric search cannot inflate false positives. The unmarked demo image scores z = -0.3; the marked image with the wrong key scores -2.0.</p>
       <div class="flow"><span class="node">Durable Watermark Key</span><span class="arr">→</span><span class="node">Durable Watermark Embed</span><span class="arr">→</span><span class="node seal">Save Image with Content Credentials</span></div>
-      <p class="small">No model weights, no GPU: pure numpy and scipy. About 0.8 s to embed and 2 s to detect a 768 px image on one CPU core. MIT licensed. Also usable from the command line and as a two-function Python library for detection services.</p>
+      <p class="small">No model weights, no GPU: pure numpy and scipy. About 0.8 s to embed and 2 s to detect a 768 px image on one CPU core. Apache-2.0 licensed. Also usable from the command line and as a two-function Python library for detection services.</p>
     </div>
     <div>
       <div class="three">
@@ -661,7 +661,7 @@ footer { padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1p
 </section>
 
 <section id="compliance">
-  <div class="eyebrow">Regulatory mapping · not legal advice</div>
+  <div class="eyebrow">Regulatory mapping · not legal advice · no compliance warranty</div>
   <h2>Where each obligation lands</h2>
   <div class="tablewrap"><table>
     <thead><tr><th>Obligation</th><th>Watermark</th><th>Content Credentials</th></tr></thead>
@@ -704,7 +704,7 @@ footer { padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1p
   </div>
 </section>
 
-<footer>All images on this page were produced by executing the released nodes inside ComfyUI (CPU) on the bundled example image; no diffusion model was run. Numbers are from the packs' benchmark and quality-sweep scripts on 13 September 2026. Demo certificate: self-issued "Acme Image Studio" test chain.</footer>
+<footer>All images on this page were produced by executing the released nodes inside ComfyUI (CPU) on the bundled example image; no diffusion model was run. Numbers are from the packs' benchmark and quality-sweep scripts on 13 September 2026. Demo certificate: self-issued "Acme Image Studio" test chain. Both packs are released under the Apache License 2.0 with a NOTICE disclaiming warranty, liability and any promise of regulatory compliance; nothing on this page is legal advice.</footer>
 </div>
 <div class="tip" id="tip"></div>
 
