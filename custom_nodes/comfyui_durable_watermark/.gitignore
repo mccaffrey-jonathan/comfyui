@@ -5,3 +5,5 @@ __pycache__/
 config/*
 !config/.gitignore
 !config/*.example
+/corpus/
+*.json.partial

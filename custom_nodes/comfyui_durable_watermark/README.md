@@ -163,6 +163,35 @@ cd ComfyUI/custom_nodes && git clone https://github.com/mccaffrey-jonathan/Comfy
 python -m pytest -q
 ```
 
+## Evaluation corpus and harness
+
+`tools/corpus/prompts.json` holds 100 prompts in ten categories (photoreal
+portraits, landscapes, architecture, product shots, flat graphics, anime,
+painterly, macro, low-light and text-heavy signage/UI).
+`tools/corpus/generate_corpus.py` renders them through a running ComfyUI
+server (SDXL, SD 1.5, SD 3.5 and Flux presets, fixed seeds) into a folder with
+a `manifest.json`:
+
+```
+python tools/corpus/generate_corpus.py --server http://127.0.0.1:8188 \
+    --preset sdxl --checkpoint sd_xl_base_1.0.safetensors --out corpus/sdxl
+```
+
+`tools/eval_corpus.py` then measures, for every image, fidelity of the marked
+file (PSNR, SSIM, MS-SSIM, flat-region residual, chroma drift), detection and
+payload recovery after 39 transforms at strength 1.0 (three keys), 1.5 and
+adaptive, wrong-key and unmarked false-positive statistics, and the zero-bit
+and 64-bit modes:
+
+```
+python tools/eval_corpus.py --images corpus/sdxl --out results.json --workers 4
+```
+
+It resumes from `results.json.partial` if interrupted.  The results of the run
+over 100 ComfyUI renders are analysed in
+`docs/ai-content-compliance/reviews/corpus-100-evaluation.md` of the ComfyUI
+branch this pack was developed on.
+
 ## License and disclaimer
 
 Apache License 2.0 (see `LICENSE` and `NOTICE`). Pure numpy/scipy; no third-party watermark
