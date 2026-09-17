@@ -157,6 +157,20 @@ Findings acted on in the code:
 | Mask halo made skies ripple; small images failed to decode | The wide-blur gain is now capped by a narrow-blur view of the same texture map (flat pixels stay at the floor, thin edges keep their gain) and the additive floor is left unmasked; content-adaptive strength (x1.5 texture-rich, x1.5-2 small images) on by default in the node and CLI |
 | AB 853 wrongly credited with a created-vs-altered field | Corrected to pending SB 1000 in docs and code |
 
+Regression check of the revised core against the first release (five keys per image, mean z, 8-bit
+round trip / JPEG q75 / rotate 30 with expand; payload = decoded and verified out of five keys):
+
+| image | first release | revised core |
+|---|---|---|
+| flat cartoon (`example.png`, 768 px) | 17.3 / 8.8 / 9.4, payload 5 / 2 / 5, PSNR 43.0 | 15.3 / 7.1 / 8.2, payload 4 / 2 / 5, PSNR 43.2 |
+| sky render (`flux_schnell-1`, 1024 px) | 22.1 / 18.6 / 14.2, payload 5 / 5 / 5, PSNR 37.8 | 20.8 / 17.5 / 13.7, payload 5 / 5 / 5, PSNR 37.9 |
+| anime flat graphic (`mixing_controlnets-1`) | 25.4 / 20.7 / 17.4, payload 5 / 5 / 5, PSNR 36.8 | 26.0 / 21.7 / 18.5, payload 5 / 5 / 5, PSNR 36.7 |
+
+The revised mask costs one to two z-points on flat-dominated content and gains one on textured
+content, with key-to-key spread roughly halved; the sky render's flat-region peak falls from 31 to
+23 of 255. Per-key variance (about two z-points) is larger than the change, which is why single-key
+tables such as the one above should be read with that margin in mind.
+
 Findings that remain open because they are outside a node pack: a public detection tool
 (Cal. §22757.2; EU detection facility), a manifest registry/resolver behind a permanent URL, a visible
 label node, server-side pipeline enforcement, registration of the soft-binding algorithm, a larger
