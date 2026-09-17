@@ -443,11 +443,15 @@ def image_statistics(image: np.ndarray) -> dict:
 
 def recommended_strength(image: np.ndarray, base: float = 1.0) -> tuple[float, dict]:
     """Content-adaptive strength (policy from the image-quality evaluation on ComfyUI renders):
-    texture-rich images take x1.5 (measured invisible even at 4x zoom), images below 768 /
-    640 px take x1.5 / x2 to offset the resolution penalty, everything else keeps ``base``."""
+    texture-rich images take x1.5 (measured invisible even at 4x zoom) unless they also carry
+    large flat fields, images below 768 / 640 px take x1.5 / x2 to offset the resolution
+    penalty, everything else keeps ``base``."""
     st = image_statistics(image)
     factor = 1.0
-    if st["band_energy_fraction"] > 0.15:
+    # Texture boost only when the texture is spread over the frame: line art and
+    # edge maps have high in-band energy *and* large flat fields where the mark
+    # would show (corpus evaluation, canny control maps).
+    if st["band_energy_fraction"] > 0.15 and st["flat_fraction"] < 0.3:
         factor = 1.5
     if st["min_side"] < 640:
         factor = max(factor, 2.0)
@@ -675,7 +679,11 @@ def _features(S: np.ndarray, C: np.ndarray, r_step: float, cfg: WatermarkConfig,
 
     se = _interval_sums(cs_res, lo, hi)
     sn = _interval_sums(cs_ok, lo, hi)
-    ring_ok = sn >= 0.5 * _OVERSAMPLE
+    # A ring spans _OVERSAMPLE / scale fine steps in the analysed image, so the
+    # validity guard must scale with it: half the expected steps, at least one
+    # (the fixed 0.5 * _OVERSAMPLE guard rejected every ring above 2x upscale).
+    min_steps = np.minimum(0.5 * _OVERSAMPLE, np.maximum(1.0, 0.5 * _OVERSAMPLE / scales))[None, :]
+    ring_ok = sn >= min_steps
     radial = np.where(ring_ok, se / np.maximum(sn, 1e-9), 0.0)
     used = ring_ok.sum(axis=0)
 
@@ -715,7 +723,7 @@ def detect(
     image: np.ndarray,
     cfg: WatermarkConfig,
     expected_payload: Optional[int] = None,
-    scale_range: tuple[float, float] = (0.4, 2.5),
+    scale_range: tuple[float, float] = (0.3, 3.0),
     aspect_search: bool = False,
     z_threshold: float = 5.0,
     n_null: int = 96,
