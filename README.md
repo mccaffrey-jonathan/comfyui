@@ -121,6 +121,22 @@ gain is capped by a narrow-blur view of the texture map, and the additive floor 
 which cut that image's flat-region peak from 31 to 23 of 255 at unchanged robustness. PSNR mis-ranks this scheme: the residual scales with the
 host's own in-band energy, so the lowest-PSNR images are the ones where it is least visible.
 
+**100-render corpus (strengths 1.0 / 1.5 / adaptive, three keys, 39 edits).** The
+expanded evaluation in `docs/ai-content-compliance/reviews/corpus-100-evaluation.md` runs
+`tools/eval_corpus.py` over 100 ComfyUI renders (70 at 512-2048 px, 30 at 400 px; see the
+report for how the corpus was assembled). Median PSNR 39.0 dB / SSIM 0.962 / MS-SSIM 0.992 at
+strength 1.0. Payload recovery at strength 1.0 is 95-98 % for the identity, flip, rotate-90,
+grayscale, hue, contrast, gamma, brightness, blur and sharpen edits, 82-90 % for JPEG 75-90,
+0.5-1.5x resizes and 5-45 degree rotations, 69 % at JPEG 60, 80 % at 50 % centre crop and
+50 % for the 25 % crop, social-media (1080 px + JPEG 80) and rotate-15 + 0.8x + JPEG 75
+combinations. Strength 1.5 lifts nearly every edit to 95-100 % (JPEG 60: 95 %, rotate 45: 100 %,
+combo: 85 %). Zero-bit mode detects presence in 93-100 % of images through JPEG 40, 25 % crops
+and rotation. The three keys agree within a few percentage points. Over 900 unmarked and 400
+wrong-key detections the largest presence score was z = 3.9 (threshold 5): zero false alarms.
+The 64-bit payload is markedly weaker (76 % identity, 30-40 % after JPEG 60-75) and is not
+recommended where the payload matters. Downscales below the 0.4x search floor and upscales
+above 2.5x are missed by construction of the scale search.
+
 **Limitations.** Like every post-hoc watermark (SynthID and TrustMark included) it does not
 survive diffusion regeneration, adversarial spectral attacks, or averaging many images marked
 with one key; rotate keys and use per-image payloads. Flat synthetic graphics lose the
