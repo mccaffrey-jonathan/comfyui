@@ -43,7 +43,9 @@ watermark it does not survive diffusion "regeneration" attacks).
 """
 from __future__ import annotations
 
+import functools
 import hashlib
+import hmac
 import math
 import struct
 from dataclasses import dataclass, field, asdict
@@ -65,6 +67,8 @@ __all__ = [
     "payload_from_string",
     "payload_to_hex",
     "crc8",
+    "recommended_strength",
+    "image_statistics",
 ]
 
 SCHEME_ID = "org.comfyui.ringmark.v1"
@@ -131,26 +135,29 @@ class WatermarkConfig:
         return _kdf(self, b"fingerprint")[:8].hex()
 
 
+_SCHEDULE_VERSION = 3
+_SCRYPT = dict(n=2 ** 14, r=8, p=1)     # ~25 ms, 16 MB: makes guessing the secret from a published
+                                        # key fingerprint cost a scrypt per guess
+_NULL_PREFIX = "\x00ringmark-null::"   # internal wrong-key baselines (never real secrets): fast hash
+
+
+def _params_blob(cfg: WatermarkConfig) -> bytes:
+    return struct.pack("<iiddd", _SCHEDULE_VERSION, cfg.payload_bits, float(cfg.r_min), float(cfg.r_max),
+                       float(cfg.ring_width))
+
+
+@functools.lru_cache(maxsize=64)
+def _master_key(secret: str, params: bytes) -> bytes:
+    """Memory-hard master key from the secret and the public parameters (cached per process)."""
+    if secret.startswith(_NULL_PREFIX):
+        return hashlib.sha256(_DOMAIN + b"|null|" + secret.encode("utf-8") + b"|" + params).digest()
+    return hashlib.scrypt(secret.encode("utf-8"), salt=_DOMAIN + b"|" + params, dklen=32,
+                          maxmem=64 * 1024 * 1024, **_SCRYPT)
+
+
 def _kdf(cfg: WatermarkConfig, purpose: bytes) -> bytes:
-    """Derive 32 bytes of key material bound to the secret and public params."""
-    h = hashlib.sha256()
-    h.update(_DOMAIN)
-    h.update(b"|")
-    h.update(cfg.secret.encode("utf-8"))
-    h.update(b"|")
-    h.update(
-        struct.pack(
-            "<iiddd",
-            2,  # schedule version
-            cfg.payload_bits,
-            float(cfg.r_min),
-            float(cfg.r_max),
-            float(cfg.ring_width),
-        )
-    )
-    h.update(b"|")
-    h.update(purpose)
-    return h.digest()
+    """Derive 32 bytes of purpose-specific key material (HMAC of the master key)."""
+    return hmac.new(_master_key(cfg.secret, _params_blob(cfg)), purpose, hashlib.sha256).digest()
 
 
 def _rng(cfg: WatermarkConfig, purpose: bytes) -> np.random.Generator:
@@ -402,11 +409,50 @@ def _perceptual_mask(y: np.ndarray) -> np.ndarray:
     mu = _ndimage.uniform_filter(y, size=7, mode="reflect")
     var = _ndimage.uniform_filter(y * y, size=7, mode="reflect") - mu * mu
     std = np.sqrt(np.maximum(var, 0.0))
-    gain = 0.45 + std / 0.06
-    gain = np.clip(gain, 0.45, 2.5)
+    # Erode the texture map first so the blur does not project a textured object's gain
+    # into the flat area next to it (the halo that made skies ripple).
+    std = _ndimage.minimum_filter(std, size=25, mode="reflect")
+    gain = _MASK_FLOOR + std / 0.06
+    gain = np.clip(gain, _MASK_FLOOR, 2.5)
     gain = _ndimage.gaussian_filter(gain, sigma=24, mode="reflect")
     gain = gain / max(gain.mean(), 1e-6)
-    return np.clip(gain, 0.45, 1.8)
+    return np.clip(gain, _MASK_FLOOR, 1.8)
+
+
+_MASK_FLOOR = 0.35
+
+
+def image_statistics(image: np.ndarray) -> dict:
+    """Cheap content statistics used by :func:`recommended_strength` (one FFT, one local-std pass)."""
+    y = to_luma(np.asarray(image, dtype=np.float64))
+    h, w = y.shape
+    F = np.abs(np.fft.fft2(y - y.mean())) ** 2
+    fy, fx = _freq_grid(h, w)
+    r = np.sqrt(fx * fx + fy * fy)
+    tot = float(F[r > 0].sum()) + _EPS
+    band = float(F[(r >= 0.05) & (r <= 0.36)].sum()) / tot
+    flat = 0.0
+    if _ndimage is not None:
+        mu = _ndimage.uniform_filter(y, size=7, mode="reflect")
+        var = _ndimage.uniform_filter(y * y, size=7, mode="reflect") - mu * mu
+        flat = float((np.sqrt(np.maximum(var, 0.0)) < 2.0 / 255.0).mean())
+    return {"min_side": int(min(h, w)), "band_energy_fraction": band, "flat_fraction": flat}
+
+
+def recommended_strength(image: np.ndarray, base: float = 1.0) -> tuple[float, dict]:
+    """Content-adaptive strength (policy from the image-quality evaluation on ComfyUI renders):
+    texture-rich images take x1.5 (measured invisible even at 4x zoom), images below 768 /
+    640 px take x1.5 / x2 to offset the resolution penalty, everything else keeps ``base``."""
+    st = image_statistics(image)
+    factor = 1.0
+    if st["band_energy_fraction"] > 0.15:
+        factor = 1.5
+    if st["min_side"] < 640:
+        factor = max(factor, 2.0)
+    elif st["min_side"] < 768:
+        factor = max(factor, 1.5)
+    st["factor"] = factor
+    return base * factor, st
 
 
 # ----------------------------------------------------------------------------
@@ -473,21 +519,23 @@ def embed(image: np.ndarray, cfg: WatermarkConfig, payload: int = 0) -> np.ndarr
 
     F = np.fft.fft2(y)
     Fm = F * gain
+    y_marked = np.real(np.fft.ifft2(Fm))
+    delta = y_marked - y
+    if cfg.perceptual_mask:
+        # Mask only the multiplicative part (it scales with local host energy and is what
+        # becomes visible when texture gain leaks into flat areas).
+        delta = delta * _perceptual_mask(y)
 
-    # Keyed additive floor (band-limited, same radial/angular shaping) so flat
-    # regions still carry the mark after 8-bit quantisation.
+    # Keyed additive floor (band-limited, same radial/angular shaping) so flat regions still
+    # carry the mark after 8-bit quantisation.  Deliberately not masked: it is a uniform
+    # ~1/255-std grain that is what flat regions decode from.
     if cfg.noise_floor:
         nrng = np.random.Generator(np.random.PCG64(ks.noise_seed))
         noise = nrng.standard_normal((h, w))
         Nf = np.fft.fft2(noise) * inband * gain
         n_sp = np.real(np.fft.ifft2(Nf))
         n_std = float(n_sp.std()) + _EPS
-        Fm = Fm + Nf * (_FLOOR_STD * cfg.strength / n_std)
-
-    y_marked = np.real(np.fft.ifft2(Fm))
-    delta = y_marked - y
-    if cfg.perceptual_mask:
-        delta = delta * _perceptual_mask(y)
+        delta = delta + n_sp * (_FLOOR_STD * cfg.strength / n_std)
 
     out = np.clip(rgb + delta[..., None], 0.0, 1.0)
     if alpha_ch is not None:
@@ -502,7 +550,7 @@ def embed(image: np.ndarray, cfg: WatermarkConfig, payload: int = 0) -> np.ndarr
 class DetectionResult:
     detected: bool
     z_score: float                    # combined presence z (radial sync + coherent angular sync)
-    p_value: float
+    p_value: float                    # Gumbel tail probability of the score under the wrong-key null
     z_radial: float
     z_angular: float
     threshold: float
@@ -702,7 +750,7 @@ def detect(
 
     fp = cfg.key_fingerprint()
     null_ks = [KeySchedule.from_config(WatermarkConfig(
-        secret=f"{fp}::null::{i}", payload_bits=cfg.payload_bits, r_min=cfg.r_min, r_max=cfg.r_max,
+        secret=f"{_NULL_PREFIX}{fp}::{i}", payload_bits=cfg.payload_bits, r_min=cfg.r_min, r_max=cfg.r_max,
         ring_width=cfg.ring_width, strength=cfg.strength)) for i in range(n_null)]
     Vr0 = np.stack([k.radial for k in null_ks]) / math.sqrt(nb)                       # (n_null, nb)
     W0 = np.stack([k.sync_weights() * np.exp(-1j * k.phases) for k in null_ks])       # (n_null, nb, nh)
@@ -744,7 +792,7 @@ def detect(
 
     mu0, sd0 = float(null_best.mean()), float(null_best.std() + 1e-9)
     z = (best["score"] - mu0) / sd0
-    p = 0.5 * math.erfc(z / math.sqrt(2.0))
+    p = _gumbel_p(null_best, best["score"])
     payload, crc_ok = _decode_bits(cfg, best["bits01"])
     conf = np.array(best["conf"], dtype=np.float64)
     detected = bool(z >= z_threshold)
@@ -760,6 +808,22 @@ def detect(
         expected_match=match, aspect=float(best["aspect"]), n_bins_used=best["used"], key_fingerprint=fp,
         notes="; ".join(notes),
     )
+
+
+def _gumbel_p(null_max: np.ndarray, score: float) -> float:
+    """Tail probability of ``score`` under the wrong-key null.
+
+    The null samples are maxima over the scale/rotation/flip search, so their
+    distribution is extreme-value shaped, not Gaussian; a Gumbel fit (method of
+    moments) extrapolates its tail far more honestly than a normal z-score.
+    """
+    m, s = float(np.mean(null_max)), float(np.std(null_max)) + 1e-9
+    beta = s * math.sqrt(6.0) / math.pi
+    mu = m - 0.5772156649 * beta
+    x = (score - mu) / beta
+    if x > 700:
+        return 0.0
+    return float(-math.expm1(-math.exp(-x)))
 
 
 def _box_down2(y: np.ndarray) -> np.ndarray:

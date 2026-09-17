@@ -12,7 +12,7 @@ import sys
 
 import numpy as np
 
-from .core import WatermarkConfig, detect, embed, payload_from_string, payload_to_hex
+from .core import WatermarkConfig, detect, embed, payload_from_string, payload_to_hex, recommended_strength
 from .keys import resolve_payload, resolve_secret, resolve_strength
 
 
@@ -69,6 +69,7 @@ def main(argv=None) -> int:
     e.add_argument("output")
     e.add_argument("--payload", default="", help="int, 0xhex, or any string (hashed)")
     e.add_argument("--quality", type=int, default=95, help="JPEG/WebP quality")
+    e.add_argument("--adaptive", action="store_true", help="scale strength by image content/size (recommended)")
     common(e)
 
     d = sub.add_parser("detect", help="detect / decode a watermark")
@@ -87,10 +88,14 @@ def main(argv=None) -> int:
     if args.cmd == "embed":
         payload = payload_from_string(resolve_payload(args.payload), cfg.payload_bits)
         img = _load(args.input)
+        stats = None
+        if args.adaptive:
+            cfg.strength, stats = recommended_strength(img, cfg.strength)
         out = embed(img, cfg, payload)
         _save(args.output, out, args.quality)
         print(json.dumps({"output": args.output, "payload": payload_to_hex(payload, cfg.payload_bits),
-                          "key_fingerprint": cfg.key_fingerprint(), "scheme": "org.comfyui.ringmark.v1"}))
+                          "key_fingerprint": cfg.key_fingerprint(), "scheme": "org.comfyui.ringmark.v1",
+                          "strength": cfg.strength, "image_statistics": stats}))
         return 0
 
     img = _load(args.input)

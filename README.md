@@ -31,8 +31,8 @@ The scheme is documented in
 | Node | Purpose |
 |---|---|
 | **Durable Watermark Key** | Resolves the secret, payload, bits and strength into a `WATERMARK_KEY`. |
-| **Durable Watermark Embed** | Marks a batch of images. Outputs the images, the payload as hex and a JSON `watermark_record` for the C2PA node. |
-| **Durable Watermark Detect** | Blind detection with a key: `detected`, calibrated `z_score`, decoded `payload_hex`, `payload_matches`, and a JSON report with scale / rotation / flip estimates. |
+| **Durable Watermark Embed** | Marks a batch of images. `adaptive_strength` (default on) scales the key's strength x1.5 on texture-rich images (measured invisible even at 4x zoom) and x1.5 / x2 below 768 / 640 px so small images still decode. Outputs the images, the payload as hex and a JSON `watermark_record` for the C2PA node. |
+| **Durable Watermark Detect** | Blind detection with a key: `detected`, calibrated `z_score`, a Gumbel-tail `p_value`, decoded `payload_hex`, `payload_matches`, and a JSON report with scale / rotation / flip estimates. |
 
 Typical graph: `... -> VAE Decode -> Durable Watermark Embed -> Save Image with Content Credentials`.
 Apply the watermark **before** any save node.
@@ -51,9 +51,22 @@ Precedence (first non-empty wins):
 5. `secret` in `config/watermark.json` (git-ignored; see `watermark.json.example`).
 
 **Inference providers**: set `COMFYUI_WATERMARK_ENFORCE=1` (or `"enforce": true` in
-`config/watermark.json`). The server-side secret, payload (`COMFYUI_WATERMARK_PAYLOAD`) and
-strength (`COMFYUI_WATERMARK_STRENGTH`) then override whatever a tenant's workflow says, so
-the provider's mark cannot be disabled or re-keyed from a workflow.
+`config/watermark.json`). The server-side secret, payload (`COMFYUI_WATERMARK_PAYLOAD`),
+strength (`COMFYUI_WATERMARK_STRENGTH`) **and every parameter the key schedule depends on**
+(`COMFYUI_WATERMARK_PAYLOAD_BITS`, `_R_MIN`, `_R_MAX`, `_RING_WIDTH`, `_PERCEPTUAL_MASK`,
+`_NOISE_FLOOR`, or the same keys in `watermark.json`) then override whatever a tenant's workflow
+says, so a workflow can neither disable the mark nor produce one the provider's detector cannot
+find. To keep per-image identifiers in enforce mode, set `COMFYUI_WATERMARK_PAYLOAD_LOW_BITS=n`:
+the server owns the high bits (provider id, key epoch) and the embed node's `payload_override`
+may fill only the low `n` bits (e.g. a generation UUID fragment).
+
+Enforcement is node-level: nothing stops a tenant from wiring stock *Save Image* without the embed
+node. A provider must enforce the pipeline server-side (a fixed save path, or a hook that rejects
+workflows without the node).
+
+**Key derivation.** The secret goes through scrypt (n=2^14) to a master key; the 8-byte
+`key_fingerprint` published in the C2PA soft binding is an HMAC of that key, so confirming a guess
+of the secret from the fingerprint costs a scrypt per guess. Use a long random secret anyway.
 
 Payload formats: decimal (`4242`), hex (`0xC0FFEE42`), or any string (SHA-256 truncated to
 `payload_bits`, e.g. `payload = "acme-provider"`). `payload_override` on the embed node lets a
@@ -67,7 +80,8 @@ workflow stamp a per-image value (e.g. the first 8 hex digits of a generation UU
 | 1.5 | 39.3 / 43.5 / 36.6 dB | JPEG q>=50 on photos, q75 on flat graphics | heavier combos |
 
 `payload_bits`: 32 by default; 0 makes a zero-bit (presence-only) mark where every chip is
-sync; 64 is possible but halves the per-bit margin. Advanced: `r_min`/`r_max` band,
+sync; 64 is possible but halves the per-bit margin. A 32-bit identifier collides at ~77k
+images (birthday bound); providers that need per-image ids should use 64 bits and strength 1.5. Advanced: `r_min`/`r_max` band,
 `ring_width` (keep >= 2 / smallest image side; raise it for thumbnails), `perceptual_mask`,
 `noise_floor`.
 
@@ -94,17 +108,31 @@ sync; 64 is possible but halves the per-bit margin. Advanced: `r_min`/`r_max` ba
 Unmarked images and wrong keys score |z| < 3. Reproduce with `python tools/bench.py [strength] [payload_bits]` (add your own images to the
 `images` dict) or via the CLI.
 
+**Independent evaluation on ComfyUI renders.** An Opus-reviewed evaluation on 19 renders from
+ComfyUI's bundled workflow templates (Flux, SDXL, SD 3.5, ControlNet outputs at 1024 px) is in
+`docs/ai-content-compliance/reviews/image-quality-on-generated-images.md`: mean PSNR 39.9 dB /
+SSIM 0.968 at strength 1.0, presence detected in 89-100 % of images across ten edits, payload
+recovered in 63-95 % (100 % on most edits at strength 1.5), zero false positives in 38 negatives
+and zero wrong payloads that passed the CRC in 380 detections. It found the mark visible at 4x
+zoom in one image's sky at default strength; the perceptual mask has since been changed (texture
+gain is eroded before blurring, the additive floor is no longer masked) which cut that image's
+flat-region peak from 29 to 19 of 255. PSNR mis-ranks this scheme: the residual scales with the
+host's own in-band energy, so the lowest-PSNR images are the ones where it is least visible.
+
 **Limitations.** Like every post-hoc watermark (SynthID and TrustMark included) it does not
 survive diffusion regeneration, adversarial spectral attacks, or averaging many images marked
 with one key; rotate keys and use per-image payloads. Flat synthetic graphics lose the
-payload under JPEG <= 75 at default strength. Extreme combined edits (net < 0.65x downscale
-plus strong JPEG) exceed the band. Not a substitute for the C2PA manifest: use both.
+payload under JPEG <= 75 at default strength; WebP q80 is the worst lossy codec tested. Images
+below ~640 px need strength 2 (the adaptive default does this). Extreme combined edits (net
+< 0.65x downscale plus strong JPEG) exceed the band. This pack provides no public detection
+service and no manifest registry (see the C2PA pack README); it is not a substitute for the
+C2PA manifest: use both.
 
 ## Command line (for providers, CI and detection services)
 
 ```
 cd ComfyUI/custom_nodes/ComfyUI-DurableWatermark
-python -m durable_watermark embed  in.png out.png --secret env:WM_SECRET --payload acme-provider
+python -m durable_watermark embed  in.png out.png --secret env:WM_SECRET --payload acme-provider --adaptive
 python -m durable_watermark detect out.png        --secret env:WM_SECRET --expect acme-provider --json
 ```
 
@@ -114,7 +142,8 @@ Exit code 0 = detected. The library API is two functions:
 from durable_watermark import WatermarkConfig, embed, detect, payload_from_string
 cfg = WatermarkConfig(secret="...", payload_bits=32, strength=1.0)
 marked = embed(rgb_float_hwc, cfg, payload_from_string("acme-provider", 32))
-result = detect(marked, cfg)   # .detected, .z_score, .p_value, .payload_hex, .scale, .rotation_deg, .flipped
+result = detect(marked, cfg)   # .detected, .z_score, .p_value (Gumbel tail), .payload_hex, .scale, .rotation_deg, .flipped
+# recommended_strength(rgb, base) returns the content-adaptive strength the Embed node uses
 ```
 
 ## Install

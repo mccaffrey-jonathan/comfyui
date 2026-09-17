@@ -18,6 +18,7 @@ from durable_watermark.core import (
     embed,
     payload_from_string,
     payload_to_hex,
+    recommended_strength,
 )
 from durable_watermark.keys import SecretError, resolve
 
@@ -74,11 +75,14 @@ class DurableWatermarkKey(io.ComfyNode):
             resolved = resolve(secret, payload, strength)
         except SecretError as exc:
             raise RuntimeError(str(exc)) from exc
-        cfg = WatermarkConfig(
-            secret=resolved.secret, payload_bits=int(payload_bits), strength=float(resolved.strength),
-            r_min=float(r_min), r_max=float(r_max), ring_width=float(ring_width),
-            perceptual_mask=bool(perceptual_mask), noise_floor=bool(noise_floor),
-        )
+        widget = dict(payload_bits=int(payload_bits), r_min=float(r_min), r_max=float(r_max),
+                      ring_width=float(ring_width), perceptual_mask=bool(perceptual_mask), noise_floor=bool(noise_floor))
+        if resolved.enforced:
+            for k, v in resolved.params.items():
+                if k in widget and widget[k] != v:
+                    log.info("durable_watermark: enforce mode overrides %s=%r with server value %r", k, widget[k], v)
+                widget[k] = v
+        cfg = WatermarkConfig(secret=resolved.secret, strength=float(resolved.strength), **widget)
         payload_int = payload_from_string(resolved.payload_text, cfg.payload_bits)
         key = {
             "config": {
@@ -89,6 +93,7 @@ class DurableWatermarkKey(io.ComfyNode):
             "payload": payload_int,
             "payload_text": resolved.payload_text,
             "enforced": resolved.enforced,
+            "payload_low_bits": resolved.payload_low_bits,
             "key_fingerprint": cfg.key_fingerprint(),
         }
         return io.NodeOutput(key)
@@ -116,6 +121,9 @@ class DurableWatermarkEmbed(io.ComfyNode):
                 WatermarkKey.Input("key"),
                 io.String.Input("payload_override", default="", optional=True,
                                 tooltip="Per-image payload override (e.g. a generation UUID fragment). Empty = key payload."),
+                io.Boolean.Input("adaptive_strength", default=True, optional=True,
+                                 tooltip="Scale the key's strength per image: x1.5 on texture-rich content (invisible there), "
+                                         "x1.5-2 below 768/640 px so small images still decode; unchanged otherwise."),
             ],
             outputs=[
                 io.Image.Output(display_name="images"),
@@ -125,16 +133,31 @@ class DurableWatermarkEmbed(io.ComfyNode):
         )
 
     @classmethod
-    def execute(cls, images: torch.Tensor, key: dict, payload_override: str = "") -> io.NodeOutput:
+    def execute(cls, images: torch.Tensor, key: dict, payload_override: str = "", adaptive_strength: bool = True) -> io.NodeOutput:
         cfg = _config_from_key(key)
+        base_strength = cfg.strength
         payload = key["payload"]
-        if payload_override and not key.get("enforced"):
-            payload = payload_from_string(payload_override, cfg.payload_bits)
-        out = []
+        if payload_override:
+            override = payload_from_string(payload_override, cfg.payload_bits)
+            if not key.get("enforced"):
+                payload = override
+            elif key.get("payload_low_bits", 0) > 0:
+                # enforce mode with a payload template: the server owns the high bits (provider /
+                # key epoch), the workflow fills the low bits (per-image id).
+                low = min(int(key["payload_low_bits"]), cfg.payload_bits)
+                mask = (1 << low) - 1
+                payload = (payload & ~mask) | (override & mask)
+            else:
+                log.info("durable_watermark: payload_override ignored (enforce mode, payload_low_bits=0)")
+        out, strengths = [], []
         for i in range(images.shape[0]):
             arr = _tensor_to_np(images[i])
+            if adaptive_strength:
+                cfg.strength, _stats = recommended_strength(arr, base_strength)
+            strengths.append(cfg.strength)
             marked = embed(arr, cfg, payload)
             out.append(torch.from_numpy(marked.astype(np.float32)))
+        cfg.strength = base_strength
         result = torch.stack(out, dim=0).to(images.device)
         record = {
             "scheme": SCHEME_ID,
@@ -142,6 +165,7 @@ class DurableWatermarkEmbed(io.ComfyNode):
             "payload_bits": cfg.payload_bits,
             "key_fingerprint": cfg.key_fingerprint(),
             "params": cfg.public_params(),
+            "strengths": strengths,
         }
         return io.NodeOutput(result, record["payload_hex"], json.dumps(record))
 
