@@ -15,8 +15,10 @@ from durable_watermark.core import (  # noqa: E402
     crc8,
     detect,
     embed,
+    image_statistics,
     payload_from_string,
     payload_to_hex,
+    recommended_strength,
 )
 from durable_watermark import keys  # noqa: E402
 
@@ -198,3 +200,59 @@ def test_redact_prompt():
     assert red["2"]["inputs"]["secret"] == "env:FOO"
     assert red["3"]["inputs"]["secret"] == "keep"
     assert prompt["1"]["inputs"]["secret"] == "hunter2"  # original untouched
+
+
+def test_p_value_is_gumbel_tail(image, marked, cfg):
+    res = detect(quantize(marked), cfg)
+    assert 0.0 <= res.p_value < 1e-6
+    neg = detect(quantize(image), cfg)
+    assert neg.p_value > 0.01
+
+
+def test_recommended_strength_policy(image):
+    st = image_statistics(image)
+    assert set(st) >= {"min_side", "band_energy_fraction", "flat_fraction"}
+    s, info = recommended_strength(image, 1.0)
+    assert s > 0 and info["factor"] in (1.0, 1.5, 2.0)
+    small = image[:400, :400]
+    s_small, info_small = recommended_strength(small, 1.0)
+    assert s_small >= 2.0 and info_small["min_side"] == 400
+    flat = np.full((800, 800, 3), 0.5)
+    flat[:, :, 0] = np.linspace(0.2, 0.8, 800)[None, :]
+    s_flat, info_flat = recommended_strength(flat, 1.0)
+    assert s_flat == pytest.approx(1.0) and info_flat["flat_fraction"] > 0.9
+    rng = np.random.default_rng(0)
+    tex = np.clip(0.5 + 0.2 * rng.standard_normal((800, 800, 3)), 0, 1)
+    assert recommended_strength(tex, 1.0)[0] == pytest.approx(1.5)
+
+
+def test_perceptual_mask_does_not_halo_into_flat_regions():
+    from durable_watermark.core import _perceptual_mask
+
+    y = np.full((512, 512), 0.5)
+    rng = np.random.default_rng(3)
+    y[:, :200] += rng.normal(0, 0.15, (512, 200))     # textured left half
+    m = _perceptual_mask(np.clip(y, 0, 1))
+    assert m[:, 260:].max() < m[:, :150].mean() * 0.6  # flat side stays well below the textured side
+    assert m[:, 300:].max() <= m[:, 300:].min() + 0.05  # and is uniform 100 px from the edge
+
+
+def test_enforce_pins_key_schedule_params(monkeypatch, tmp_path):
+    monkeypatch.setenv(keys.ENV_ENFORCE, "1")
+    monkeypatch.setenv(keys.ENV_SECRET, "server")
+    monkeypatch.setenv("COMFYUI_WATERMARK_PAYLOAD_BITS", "64")
+    monkeypatch.setenv("COMFYUI_WATERMARK_R_MAX", "0.30")
+    monkeypatch.setenv("COMFYUI_WATERMARK_PAYLOAD_LOW_BITS", "16")
+    monkeypatch.setattr(keys, "CONFIG_JSON", str(tmp_path / "nope.json"))
+    r = keys.resolve("typed-secret", "0xABCD", 0.5)
+    assert r.enforced and r.secret == "server" and r.params == {"payload_bits": 64, "r_max": 0.30}
+    assert r.payload_low_bits == 16
+
+
+def test_workflow_redaction_helpers():
+    prompt = {"1": {"class_type": "DurableWatermarkKey", "inputs": {"secret": "hunter2"}},
+              "2": {"class_type": "C2PASaveImage", "inputs": {"private_passphrase": "env:PP"}}}
+    assert keys.sensitive_literals(prompt) == {"hunter2"}
+    extra = {"workflow": {"nodes": [{"type": "DurableWatermarkKey", "widgets_values": ["hunter2", "acme"]}]}, "note": "hunter2"}
+    out = keys.redact_extra_pnginfo(extra, prompt)
+    assert out["workflow"]["nodes"][0]["widgets_values"] == ["<redacted>", "acme"] and out["note"] == "<redacted>"

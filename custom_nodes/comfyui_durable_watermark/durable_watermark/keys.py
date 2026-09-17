@@ -24,7 +24,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 log = logging.getLogger("durable_watermark")
@@ -153,25 +153,76 @@ def resolve_strength(widget_value: float) -> float:
     return float(widget_value)
 
 
+PINNED_PARAMS = ("payload_bits", "r_min", "r_max", "ring_width", "perceptual_mask", "noise_floor")
+
+
 @dataclass
 class ResolvedKey:
     secret: str
     payload_text: str
     strength: float
     enforced: bool
+    params: dict = field(default_factory=dict)   # server-pinned key-schedule parameters (enforce mode)
+    payload_low_bits: int = 0                    # bits a workflow may still set per image in enforce mode
 
 
 def resolve(widget_secret: str, widget_payload: str, widget_strength: float) -> ResolvedKey:
+    """Resolve secret, payload and strength; in enforce mode also every parameter the
+    key schedule depends on, so a workflow cannot produce a mark the provider's detector
+    cannot find."""
+    enforced = enforce_server_settings()
+    params, low_bits = {}, 0
+    if enforced:
+        cfg = load_server_config()
+        for k in PINNED_PARAMS:
+            env = os.environ.get("COMFYUI_WATERMARK_" + k.upper())
+            if env is not None and env.strip():
+                v = env.strip()
+                params[k] = v.lower() in ("1", "true", "yes", "on") if k in ("perceptual_mask", "noise_floor") else (int(v) if k == "payload_bits" else float(v))
+            elif cfg.get(k) is not None:
+                params[k] = cfg[k]
+        env = os.environ.get("COMFYUI_WATERMARK_PAYLOAD_LOW_BITS")
+        low_bits = int(env) if env and env.strip() else int(cfg.get("payload_low_bits", 0) or 0)
     return ResolvedKey(
         secret=resolve_secret(widget_secret),
         payload_text=resolve_payload(widget_payload),
         strength=resolve_strength(widget_strength),
-        enforced=enforce_server_settings(),
+        enforced=enforced,
+        params=params,
+        payload_low_bits=max(0, low_bits),
     )
 
 
-def redact_prompt(prompt, node_class_names=("DurableWatermarkKey",), field_names=("secret",)):
-    """Return a deep copy of a ComfyUI prompt dict with watermark secrets blanked.
+SENSITIVE_FIELDS = {
+    "DurableWatermarkKey": ("secret",),
+    "C2PASaveImage": ("private_passphrase",),
+    "C2PADecryptPrivateAssertion": ("private_passphrase",),
+    "C2PASigner": ("private_key",),
+}
+_REDACTED = "<redacted>"
+
+
+def _is_literal_secret(v) -> bool:
+    return isinstance(v, str) and bool(v.strip()) and not v.strip().startswith(("env:", "file:"))
+
+
+def sensitive_literals(prompt) -> set:
+    """Literal secret values found in a ComfyUI API-format prompt (class_type/inputs)."""
+    found = set()
+    if not isinstance(prompt, dict):
+        return found
+    for node in prompt.values():
+        if not isinstance(node, dict):
+            continue
+        for f in SENSITIVE_FIELDS.get(node.get("class_type"), ()):
+            v = node.get("inputs", {}).get(f)
+            if _is_literal_secret(v) and not (f == "private_key" and "-----BEGIN" not in v):
+                found.add(v)
+    return found
+
+
+def redact_prompt(prompt, node_class_names=None, field_names=None):
+    """Return a deep copy of a ComfyUI API-format prompt with secret widget values blanked.
 
     Used by save nodes so a literal secret typed into a widget never lands in
     output metadata.  ``env:``/``file:`` references are kept (they are not secret).
@@ -180,14 +231,43 @@ def redact_prompt(prompt, node_class_names=("DurableWatermarkKey",), field_names
 
     if not isinstance(prompt, dict):
         return prompt
+    fields = dict(SENSITIVE_FIELDS)
+    if node_class_names is not None:
+        fields = {c: tuple(field_names or ("secret",)) for c in node_class_names}
     out = copy.deepcopy(prompt)
     for node in out.values():
         if not isinstance(node, dict):
             continue
-        if node.get("class_type") in node_class_names:
-            inputs = node.get("inputs", {})
-            for f in field_names:
-                v = inputs.get(f)
-                if isinstance(v, str) and v and not v.startswith(("env:", "file:")):
-                    inputs[f] = "<redacted>"
+        inputs = node.get("inputs", {})
+        for f in fields.get(node.get("class_type"), ()):
+            v = inputs.get(f)
+            if _is_literal_secret(v) and not (f == "private_key" and "-----BEGIN" not in v):
+                inputs[f] = _REDACTED
     return out
+
+
+def redact_values(obj, secrets):
+    """Deep-copy ``obj`` (any JSON structure, e.g. the front-end workflow graph with its
+    ``widgets_values`` arrays) replacing every string equal to one of ``secrets``."""
+    import copy
+
+    secrets = {s for s in (secrets or ()) if isinstance(s, str) and s}
+    if not secrets:
+        return copy.deepcopy(obj)
+
+    def walk(o):
+        if isinstance(o, str):
+            return _REDACTED if o in secrets else o
+        if isinstance(o, list):
+            return [walk(x) for x in o]
+        if isinstance(o, dict):
+            return {k: walk(v) for k, v in o.items()}
+        return o
+
+    return walk(obj)
+
+
+def redact_extra_pnginfo(extra, prompt):
+    """Redact the workflow (front-end format) and anything else in EXTRA_PNGINFO using the
+    literal secrets found in the API prompt."""
+    return redact_values(extra, sensitive_literals(prompt))

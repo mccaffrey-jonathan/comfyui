@@ -8,12 +8,16 @@ from .core import (  # noqa: F401
     crc8,
     detect,
     embed,
+    image_statistics,
     payload_from_string,
     payload_to_hex,
+    recommended_strength,
 )
 from .keys import (  # noqa: F401
     SecretError,
+    redact_extra_pnginfo,
     redact_prompt,
+    redact_values,
     resolve,
     resolve_payload,
     resolve_secret,

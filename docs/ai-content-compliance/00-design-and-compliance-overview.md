@@ -131,6 +131,37 @@ Unmarked images and wrong keys score |z| < 3 in all runs. Detection takes ~1.5 t
 * Images smaller than ~256 px on a side do not have enough spectral resolution for the
   default ring width; raise `ring_width` for thumbnails.
 
+## Independent reviews (17 September 2026) and what changed
+
+Three Opus reviewers assessed the packs after the first release. Their reports are in
+[`reviews/`](reviews/):
+
+* [Image quality on ComfyUI renders](reviews/image-quality-on-generated-images.md): 19 template
+  renders, five strengths, ten edits, 380 detections, 29 figures.
+* [EU AI Act Art. 50 gap review](reviews/eu-ai-act-review.md): three requirement tables, 12 gaps,
+  prioritised recommendations, operator checklist.
+* [California AI Transparency Act gap review](reviews/california-ai-transparency-act-review.md):
+  requirement tables, 14 gaps, a design for the missing §22757.2 tool, operator checklist.
+
+Findings acted on in the code:
+
+| Finding | Change |
+|---|---|
+| A literal secret typed into a widget leaked through the front-end workflow JSON in PNG text and manifests (only the API prompt was redacted) | Redaction now covers `EXTRA_PNGINFO`/workflow `widgets_values` and the C2PA passphrase and PEM widgets; local fallback when the watermark pack is absent |
+| The signed manifest store was discarded and `manifest_json` was the pre-signing definition | Save node returns the manifest as read back, `registry_records` for a resolver, and can write a `.c2pa` sidecar |
+| `c2pa.watermarked` is deprecated since c2pa-rs 0.91 | `c2pa.watermarked.bound` |
+| Manifest embedded signed self-assertions of legal compliance that the NOTICE disclaims | Removed; the manifest states facts (`ai_generated`, `created_or_altered`) only |
+| Enforce mode pinned only secret/payload/strength; other key-schedule inputs could produce undetectable marks; per-image ids impossible in enforce mode | All KDF inputs pinned; payload template with server-owned high bits and workflow-filled low bits |
+| Private-assertion `key_id` and the watermark `key_fingerprint` were cheap offline passphrase oracles | scrypt-derived keys with per-box salts; watermark master key via scrypt, fingerprint via HMAC |
+| Z-score extrapolated a Gaussian tail from a max-over-search statistic | Gumbel tail probability reported as `p_value` (threshold still on the calibrated z) |
+| Mask halo made skies ripple; small images failed to decode | Texture map eroded before the blur, floor lowered and the additive floor left unmasked; content-adaptive strength (x1.5 texture-rich, x1.5-2 small images) on by default in the node and CLI |
+| AB 853 wrongly credited with a created-vs-altered field | Corrected to pending SB 1000 in docs and code |
+
+Findings that remain open because they are outside a node pack: a public detection tool
+(Cal. §22757.2; EU detection facility), a manifest registry/resolver behind a permanent URL, a visible
+label node, server-side pipeline enforcement, registration of the soft-binding algorithm, a larger
+multi-key robustness corpus with adversarial and print-scan tests. Both READMEs now say so up front.
+
 ## Threat model and key handling
 
 * The secret is the only thing standing between an attacker and a forged/removed mark, so it
