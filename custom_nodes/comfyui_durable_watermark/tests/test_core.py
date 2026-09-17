@@ -233,7 +233,7 @@ def test_perceptual_mask_does_not_halo_into_flat_regions():
     rng = np.random.default_rng(3)
     y[:, :200] += rng.normal(0, 0.15, (512, 200))     # textured left half
     m = _perceptual_mask(np.clip(y, 0, 1))
-    assert m[:, 260:].max() < m[:, :150].mean() * 0.6  # flat side stays well below the textured side
+    assert m[:, 240:].max() < m[:, :150].mean() * 0.6  # flat side stays well below the textured side
     assert m[:, 300:].max() <= m[:, 300:].min() + 0.05  # and is uniform 100 px from the edge
 
 

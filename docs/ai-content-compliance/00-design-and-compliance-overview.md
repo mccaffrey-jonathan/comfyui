@@ -154,7 +154,7 @@ Findings acted on in the code:
 | Enforce mode pinned only secret/payload/strength; other key-schedule inputs could produce undetectable marks; per-image ids impossible in enforce mode | All KDF inputs pinned; payload template with server-owned high bits and workflow-filled low bits |
 | Private-assertion `key_id` and the watermark `key_fingerprint` were cheap offline passphrase oracles | scrypt-derived keys with per-box salts; watermark master key via scrypt, fingerprint via HMAC |
 | Z-score extrapolated a Gaussian tail from a max-over-search statistic | Gumbel tail probability reported as `p_value` (threshold still on the calibrated z) |
-| Mask halo made skies ripple; small images failed to decode | Texture map eroded before the blur, floor lowered and the additive floor left unmasked; content-adaptive strength (x1.5 texture-rich, x1.5-2 small images) on by default in the node and CLI |
+| Mask halo made skies ripple; small images failed to decode | The wide-blur gain is now capped by a narrow-blur view of the same texture map (flat pixels stay at the floor, thin edges keep their gain) and the additive floor is left unmasked; content-adaptive strength (x1.5 texture-rich, x1.5-2 small images) on by default in the node and CLI |
 | AB 853 wrongly credited with a created-vs-altered field | Corrected to pending SB 1000 in docs and code |
 
 Findings that remain open because they are outside a node pack: a public detection tool
