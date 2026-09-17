@@ -1,0 +1,502 @@
+[
+ {
+  "id": "photoreal_portrait_00",
+  "category": "photoreal_portrait",
+  "prompt": "close-up studio portrait of an elderly fisherman with weathered skin, soft window light, 85mm, shallow depth of field"
+ },
+ {
+  "id": "photoreal_portrait_01",
+  "category": "photoreal_portrait",
+  "prompt": "candid street portrait of a young woman laughing in the rain, neon reflections, cinematic colour grading"
+ },
+ {
+  "id": "photoreal_portrait_02",
+  "category": "photoreal_portrait",
+  "prompt": "editorial beauty portrait, dark skin, gold jewellery, flawless matte background, high-key lighting"
+ },
+ {
+  "id": "photoreal_portrait_03",
+  "category": "photoreal_portrait",
+  "prompt": "portrait of a chef in a busy kitchen, steam and warm tungsten light, documentary style"
+ },
+ {
+  "id": "photoreal_portrait_04",
+  "category": "photoreal_portrait",
+  "prompt": "black and white portrait of a jazz musician holding a trumpet, dramatic rim light, film grain"
+ },
+ {
+  "id": "photoreal_portrait_05",
+  "category": "photoreal_portrait",
+  "prompt": "portrait of a child blowing dandelion seeds in a meadow, golden hour backlight, bokeh"
+ },
+ {
+  "id": "photoreal_portrait_06",
+  "category": "photoreal_portrait",
+  "prompt": "corporate headshot of a man in a navy suit, neutral grey backdrop, even softbox lighting"
+ },
+ {
+  "id": "photoreal_portrait_07",
+  "category": "photoreal_portrait",
+  "prompt": "portrait of a woman with freckles and red hair against a plain teal wall, overcast daylight"
+ },
+ {
+  "id": "photoreal_portrait_08",
+  "category": "photoreal_portrait",
+  "prompt": "half-body portrait of an astronaut in a white suit without helmet, hangar background, natural light"
+ },
+ {
+  "id": "photoreal_portrait_09",
+  "category": "photoreal_portrait",
+  "prompt": "portrait of a monk in saffron robes in a temple doorway, incense smoke, morning light"
+ },
+ {
+  "id": "landscape_nature_00",
+  "category": "landscape_nature",
+  "prompt": "vast alpine valley at sunrise, mist over a river, snow-capped peaks, ultra wide angle"
+ },
+ {
+  "id": "landscape_nature_01",
+  "category": "landscape_nature",
+  "prompt": "sand dunes in the Sahara under a hard midday sun, minimal, strong shadows"
+ },
+ {
+  "id": "landscape_nature_02",
+  "category": "landscape_nature",
+  "prompt": "dense rainforest canopy seen from below, shafts of light, dripping leaves"
+ },
+ {
+  "id": "landscape_nature_03",
+  "category": "landscape_nature",
+  "prompt": "Icelandic black sand beach with basalt columns and crashing waves, long exposure"
+ },
+ {
+  "id": "landscape_nature_04",
+  "category": "landscape_nature",
+  "prompt": "autumn forest road with fallen maple leaves, soft diffuse light, wet asphalt"
+ },
+ {
+  "id": "landscape_nature_05",
+  "category": "landscape_nature",
+  "prompt": "starry night over a salt flat with a mirror reflection, Milky Way, ultra long exposure"
+ },
+ {
+  "id": "landscape_nature_06",
+  "category": "landscape_nature",
+  "prompt": "rolling lavender fields in Provence at dusk, farmhouse in the distance"
+ },
+ {
+  "id": "landscape_nature_07",
+  "category": "landscape_nature",
+  "prompt": "frozen lake with cracked turquoise ice, mountains behind, clear winter sky"
+ },
+ {
+  "id": "landscape_nature_08",
+  "category": "landscape_nature",
+  "prompt": "tropical lagoon with coral reef visible through crystal water, aerial view"
+ },
+ {
+  "id": "landscape_nature_09",
+  "category": "landscape_nature",
+  "prompt": "thunderstorm over the Great Plains, lightning strike, dramatic supercell cloud"
+ },
+ {
+  "id": "architecture_interior_00",
+  "category": "architecture_interior",
+  "prompt": "brutalist concrete library interior, skylights, geometric shadows, wide lens"
+ },
+ {
+  "id": "architecture_interior_01",
+  "category": "architecture_interior",
+  "prompt": "Japanese minimalist living room with tatami, shoji screens and a single bonsai"
+ },
+ {
+  "id": "architecture_interior_02",
+  "category": "architecture_interior",
+  "prompt": "Gothic cathedral nave with stained glass and volumetric light, symmetrical"
+ },
+ {
+  "id": "architecture_interior_03",
+  "category": "architecture_interior",
+  "prompt": "modern glass skyscraper reflecting sunset clouds, low angle, downtown"
+ },
+ {
+  "id": "architecture_interior_04",
+  "category": "architecture_interior",
+  "prompt": "cosy cabin interior with a stone fireplace, wool blankets and warm lamps"
+ },
+ {
+  "id": "architecture_interior_05",
+  "category": "architecture_interior",
+  "prompt": "abandoned Art Deco theatre, peeling paint, dust in the light, wide shot"
+ },
+ {
+  "id": "architecture_interior_06",
+  "category": "architecture_interior",
+  "prompt": "futuristic airport terminal with white curved ceilings and indoor trees"
+ },
+ {
+  "id": "architecture_interior_07",
+  "category": "architecture_interior",
+  "prompt": "Moroccan riad courtyard with zellige tiles, fountain and hanging lanterns"
+ },
+ {
+  "id": "architecture_interior_08",
+  "category": "architecture_interior",
+  "prompt": "Scandinavian kitchen with pale oak cabinets, marble island and morning light"
+ },
+ {
+  "id": "architecture_interior_09",
+  "category": "architecture_interior",
+  "prompt": "Venetian canal with pastel houses and moored gondolas, overcast day"
+ },
+ {
+  "id": "product_studio_00",
+  "category": "product_studio",
+  "prompt": "matte black wireless headphones on a white seamless background, studio product shot"
+ },
+ {
+  "id": "product_studio_01",
+  "category": "product_studio",
+  "prompt": "glass perfume bottle with gold cap on a wet black acrylic surface, rim lighting"
+ },
+ {
+  "id": "product_studio_02",
+  "category": "product_studio",
+  "prompt": "leather hiking boot on a rock, water droplets, dark moody product photography"
+ },
+ {
+  "id": "product_studio_03",
+  "category": "product_studio",
+  "prompt": "stack of colourful macarons on a pastel pink plate, top-down, soft shadows"
+ },
+ {
+  "id": "product_studio_04",
+  "category": "product_studio",
+  "prompt": "mechanical wristwatch with exposed movement, macro, brushed steel reflections"
+ },
+ {
+  "id": "product_studio_05",
+  "category": "product_studio",
+  "prompt": "ceramic coffee mug with steam on a wooden table, morning window light"
+ },
+ {
+  "id": "product_studio_06",
+  "category": "product_studio",
+  "prompt": "red sports car in an empty white cyclorama studio, three-quarter view"
+ },
+ {
+  "id": "product_studio_07",
+  "category": "product_studio",
+  "prompt": "smartphone floating with splashing water, blue gradient background, advertising"
+ },
+ {
+  "id": "product_studio_08",
+  "category": "product_studio",
+  "prompt": "vintage film camera on a linen cloth, film rolls beside it, flat lay"
+ },
+ {
+  "id": "product_studio_09",
+  "category": "product_studio",
+  "prompt": "bottle of olive oil with olives and rosemary on slate, rustic food photography"
+ },
+ {
+  "id": "flat_graphic_00",
+  "category": "flat_graphic",
+  "prompt": "minimalist flat vector logo of a fox head, two colours, white background"
+ },
+ {
+  "id": "flat_graphic_01",
+  "category": "flat_graphic",
+  "prompt": "flat design infographic poster about renewable energy, pastel palette, icons"
+ },
+ {
+  "id": "flat_graphic_02",
+  "category": "flat_graphic",
+  "prompt": "simple geometric abstract composition, three circles and a rectangle, Bauhaus style"
+ },
+ {
+  "id": "flat_graphic_03",
+  "category": "flat_graphic",
+  "prompt": "flat illustration of a city skyline at night, solid colours, no gradients"
+ },
+ {
+  "id": "flat_graphic_04",
+  "category": "flat_graphic",
+  "prompt": "app icon of a paper plane, rounded square, single gradient background"
+ },
+ {
+  "id": "flat_graphic_05",
+  "category": "flat_graphic",
+  "prompt": "line-art botanical illustration of a fern, black ink on cream paper"
+ },
+ {
+  "id": "flat_graphic_06",
+  "category": "flat_graphic",
+  "prompt": "retro travel poster for the moon, limited palette, screen-print style"
+ },
+ {
+  "id": "flat_graphic_07",
+  "category": "flat_graphic",
+  "prompt": "pixel art of a small cottage on a hill, 32-colour palette, crisp pixels"
+ },
+ {
+  "id": "flat_graphic_08",
+  "category": "flat_graphic",
+  "prompt": "children's book illustration of a whale in the clouds, flat pastel shapes"
+ },
+ {
+  "id": "flat_graphic_09",
+  "category": "flat_graphic",
+  "prompt": "large solid-colour gradient background with a single centred white circle"
+ },
+ {
+  "id": "anime_illustration_00",
+  "category": "anime_illustration",
+  "prompt": "anime girl with silver hair holding an umbrella on a rainy Tokyo street, cel shading"
+ },
+ {
+  "id": "anime_illustration_01",
+  "category": "anime_illustration",
+  "prompt": "shonen-style action pose, a boy with a glowing sword, speed lines, dynamic angle"
+ },
+ {
+  "id": "anime_illustration_02",
+  "category": "anime_illustration",
+  "prompt": "Studio-Ghibli-like countryside scene, girl on a bicycle, summer clouds"
+ },
+ {
+  "id": "anime_illustration_03",
+  "category": "anime_illustration",
+  "prompt": "chibi cat mascot waving, thick outlines, bright flat colours"
+ },
+ {
+  "id": "anime_illustration_04",
+  "category": "anime_illustration",
+  "prompt": "mecha robot standing in a hangar, detailed panel lines, cool blue lighting"
+ },
+ {
+  "id": "anime_illustration_05",
+  "category": "anime_illustration",
+  "prompt": "anime portrait of a boy with headphones, night city bokeh, soft shading"
+ },
+ {
+  "id": "anime_illustration_06",
+  "category": "anime_illustration",
+  "prompt": "magical girl transformation, sparkles and ribbons, pastel colour scheme"
+ },
+ {
+  "id": "anime_illustration_07",
+  "category": "anime_illustration",
+  "prompt": "manga panel style black and white ink drawing of a samurai duel, screentone"
+ },
+ {
+  "id": "anime_illustration_08",
+  "category": "anime_illustration",
+  "prompt": "anime cafe interior with a waitress carrying a tray, warm afternoon light"
+ },
+ {
+  "id": "anime_illustration_09",
+  "category": "anime_illustration",
+  "prompt": "fantasy anime landscape with floating islands and waterfalls, vivid colours"
+ },
+ {
+  "id": "painterly_fine_art_00",
+  "category": "painterly_fine_art",
+  "prompt": "oil painting of a stormy seascape in the style of 19th-century Romanticism"
+ },
+ {
+  "id": "painterly_fine_art_01",
+  "category": "painterly_fine_art",
+  "prompt": "impressionist painting of a garden party, dappled light, visible brushstrokes"
+ },
+ {
+  "id": "painterly_fine_art_02",
+  "category": "painterly_fine_art",
+  "prompt": "watercolour of a Venetian street, loose wet-on-wet washes, white paper showing"
+ },
+ {
+  "id": "painterly_fine_art_03",
+  "category": "painterly_fine_art",
+  "prompt": "baroque still life with fruit, a skull and a candle, chiaroscuro"
+ },
+ {
+  "id": "painterly_fine_art_04",
+  "category": "painterly_fine_art",
+  "prompt": "abstract expressionist canvas, thick impasto in red, black and white"
+ },
+ {
+  "id": "painterly_fine_art_05",
+  "category": "painterly_fine_art",
+  "prompt": "ukiyo-e woodblock print of Mount Fuji with cherry blossoms"
+ },
+ {
+  "id": "painterly_fine_art_06",
+  "category": "painterly_fine_art",
+  "prompt": "gouache painting of a lighthouse on a cliff, flat matte colours, textured paper"
+ },
+ {
+  "id": "painterly_fine_art_07",
+  "category": "painterly_fine_art",
+  "prompt": "renaissance-style portrait of a noblewoman with a pearl headdress, sfumato"
+ },
+ {
+  "id": "painterly_fine_art_08",
+  "category": "painterly_fine_art",
+  "prompt": "charcoal sketch of a horse in motion, smudged shading, loose lines"
+ },
+ {
+  "id": "painterly_fine_art_09",
+  "category": "painterly_fine_art",
+  "prompt": "surrealist painting of melting clocks on a desert plain, dreamlike"
+ },
+ {
+  "id": "macro_texture_00",
+  "category": "macro_texture",
+  "prompt": "macro photograph of a dragonfly wing, iridescent veins, extreme detail"
+ },
+ {
+  "id": "macro_texture_01",
+  "category": "macro_texture",
+  "prompt": "close-up of frost crystals on a window pane, backlit, blue tones"
+ },
+ {
+  "id": "macro_texture_02",
+  "category": "macro_texture",
+  "prompt": "macro shot of a honeybee on a sunflower, pollen grains visible"
+ },
+ {
+  "id": "macro_texture_03",
+  "category": "macro_texture",
+  "prompt": "extreme close-up of woven denim fabric, individual threads, side light"
+ },
+ {
+  "id": "macro_texture_04",
+  "category": "macro_texture",
+  "prompt": "water droplets on a spider web at dawn, bokeh background, sharp focus"
+ },
+ {
+  "id": "macro_texture_05",
+  "category": "macro_texture",
+  "prompt": "cross-section of a geode with purple amethyst crystals, macro"
+ },
+ {
+  "id": "macro_texture_06",
+  "category": "macro_texture",
+  "prompt": "close-up of peacock feather eye, saturated iridescence, sharp"
+ },
+ {
+  "id": "macro_texture_07",
+  "category": "macro_texture",
+  "prompt": "moss and lichen on old bark, macro, shallow depth of field"
+ },
+ {
+  "id": "macro_texture_08",
+  "category": "macro_texture",
+  "prompt": "macro of a circuit board with solder joints and tiny components"
+ },
+ {
+  "id": "macro_texture_09",
+  "category": "macro_texture",
+  "prompt": "close-up of cracked dry earth with a single green sprout"
+ },
+ {
+  "id": "lowlight_highcontrast_00",
+  "category": "lowlight_highcontrast",
+  "prompt": "foggy night street with a single sodium lamp, silhouette walking, film noir"
+ },
+ {
+  "id": "lowlight_highcontrast_01",
+  "category": "lowlight_highcontrast",
+  "prompt": "candle-lit face in total darkness, only the flame and eyes visible"
+ },
+ {
+  "id": "lowlight_highcontrast_02",
+  "category": "lowlight_highcontrast",
+  "prompt": "neon-lit cyberpunk alley in the rain, puddle reflections, magenta and cyan"
+ },
+ {
+  "id": "lowlight_highcontrast_03",
+  "category": "lowlight_highcontrast",
+  "prompt": "moonlit snowy field with a lone tree, deep blue shadows, minimal"
+ },
+ {
+  "id": "lowlight_highcontrast_04",
+  "category": "lowlight_highcontrast",
+  "prompt": "underexposed concert stage with a spotlight on a singer, smoke"
+ },
+ {
+  "id": "lowlight_highcontrast_05",
+  "category": "lowlight_highcontrast",
+  "prompt": "silhouette of a mountaineer on a ridge against a blazing sunset"
+ },
+ {
+  "id": "lowlight_highcontrast_06",
+  "category": "lowlight_highcontrast",
+  "prompt": "car headlights on a wet highway at night, long exposure light trails"
+ },
+ {
+  "id": "lowlight_highcontrast_07",
+  "category": "lowlight_highcontrast",
+  "prompt": "lantern festival at night, hundreds of glowing paper lanterns rising"
+ },
+ {
+  "id": "lowlight_highcontrast_08",
+  "category": "lowlight_highcontrast",
+  "prompt": "dark cave interior with a shaft of daylight and a person for scale"
+ },
+ {
+  "id": "lowlight_highcontrast_09",
+  "category": "lowlight_highcontrast",
+  "prompt": "campfire on a beach at night, embers, stars above, warm and cold contrast"
+ },
+ {
+  "id": "text_signage_ui_00",
+  "category": "text_signage_ui",
+  "prompt": "old wooden shop sign that reads 'BAKERY' in gold serif letters, weathered"
+ },
+ {
+  "id": "text_signage_ui_01",
+  "category": "text_signage_ui",
+  "prompt": "subway station wall with a large tiled station name and directional arrows"
+ },
+ {
+  "id": "text_signage_ui_02",
+  "category": "text_signage_ui",
+  "prompt": "chalkboard cafe menu with prices in white handwriting, top-down"
+ },
+ {
+  "id": "text_signage_ui_03",
+  "category": "text_signage_ui",
+  "prompt": "vintage neon sign spelling 'OPEN 24 HOURS' glowing in pink at night"
+ },
+ {
+  "id": "text_signage_ui_04",
+  "category": "text_signage_ui",
+  "prompt": "clean website landing page mockup with a hero image, headline and button"
+ },
+ {
+  "id": "text_signage_ui_05",
+  "category": "text_signage_ui",
+  "prompt": "highway road sign with white lettering on green, clear sky"
+ },
+ {
+  "id": "text_signage_ui_06",
+  "category": "text_signage_ui",
+  "prompt": "book cover design with a bold title, minimal typography, texture paper"
+ },
+ {
+  "id": "text_signage_ui_07",
+  "category": "text_signage_ui",
+  "prompt": "movie poster with a large title at the top and credits block at the bottom"
+ },
+ {
+  "id": "text_signage_ui_08",
+  "category": "text_signage_ui",
+  "prompt": "graffiti mural spelling a word in wildstyle letters on a brick wall"
+ },
+ {
+  "id": "text_signage_ui_09",
+  "category": "text_signage_ui",
+  "prompt": "dashboard user interface with charts, sidebar and tables, dark theme"
+ }
+]
