@@ -88,33 +88,33 @@ number = calibrated z):
 
 | Transform | photo s=1.0 | flat s=1.0 | texture s=1.0 | photo s=1.5 | flat s=1.5 | texture s=1.5 |
 |---|---|---|---|---|---|---|
-| identity / 8-bit PNG | ✅ 19 | ✅ 18 | ✅ 41 | ✅ 25 | ✅ 20 | ✅ 42 |
-| JPEG q90 | ✅ 15 | ✅ 14 | ✅ 41 | ✅ 21 | ✅ 22 | ✅ 41 |
-| JPEG q75 | ✅ 11 | ❌ 2 | ✅ 26 | ✅ 17 | ✅ 15 | ✅ 31 |
-| JPEG q50 | 🟡 7 | ❌ 0 | ✅ 21 | ✅ 12 | ❌ 0 | ✅ 26 |
-| resize 0.5x | ✅ 12 | ✅ 14 | ✅ 31 | ✅ 17 | ✅ 22 | ✅ 34 |
-| resize 0.75x | ✅ 16 | ✅ 15 | ✅ 37 | ✅ 22 | ✅ 18 | ✅ 40 |
-| resize 1.5x | ✅ 11 | ✅ 16 | ✅ 22 | ✅ 15 | ✅ 18 | ✅ 24 |
-| rotate 90 | ✅ 19 | ✅ 18 | ✅ 41 | ✅ 25 | ✅ 20 | ✅ 42 |
-| rotate 7 (expand) | ✅ 10 | ✅ 10 | ✅ 20 | ✅ 15 | ✅ 16 | ✅ 25 |
-| rotate 30 (crop) | ✅ 11 | ✅ 15 | ✅ 23 | ✅ 17 | ✅ 21 | ✅ 30 |
-| rotate 30 (expand) | ✅ 10 | ✅ 17 | ✅ 24 | ✅ 15 | ✅ 21 | ✅ 30 |
-| horizontal flip | ✅ 19 | ✅ 18 | ✅ 42 | ✅ 25 | ✅ 20 | ✅ 42 |
-| centre crop 50 % area | ✅ 16 | ✅ 11 | ✅ 36 | ✅ 21 | ✅ 14 | ✅ 35 |
-| centre crop 25 % area | ✅ 13 | ✅ 7 | ✅ 22 | ✅ 18 | ✅ 11 | ✅ 26 |
-| hue +60 | ✅ 15 | ✅ 13 | ✅ 37 | ✅ 20 | ✅ 18 | ✅ 39 |
-| grayscale | ✅ 18 | ✅ 18 | ✅ 41 | ✅ 24 | ✅ 20 | ✅ 42 |
-| brightness 1.3 | ✅ 13 | ✅ 17 | ✅ 42 | ✅ 19 | ✅ 19 | ✅ 43 |
-| contrast 0.7 | ✅ 19 | ✅ 18 | ✅ 41 | ✅ 24 | ✅ 20 | ✅ 42 |
-| gamma 0.6 | ✅ 16 | ✅ 18 | ✅ 42 | ✅ 22 | ✅ 20 | ✅ 43 |
-| saturation 2.0 | ✅ 14 | ✅ 15 | ✅ 41 | ✅ 21 | ✅ 18 | ✅ 41 |
-| Gaussian noise sigma 5/255 | ✅ 17 | 🟡 10 | ✅ 41 | ✅ 22 | ✅ 22 | ✅ 43 |
-| Gaussian blur r=1 | ✅ 19 | ✅ 18 | ✅ 19 | ✅ 24 | ✅ 22 | ✅ 24 |
-| sharpen | ✅ 19 | ✅ 18 | ✅ 30 | ✅ 25 | ✅ 20 | ✅ 36 |
-| rotate 15 + resize (net 0.61x) + JPEG q75 | ❌ 0 | ❌ 0 | ✅ 10 | ❌ 4 | ❌ -1 | ✅ 16 |
-| anisotropic resize 1.2x horizontal (aspect search on) | ✅ 9 | ✅ 11 | ✅ 21 | ✅ 15 | ✅ 14 | ✅ 26 |
+| identity / 8-bit PNG | ✅ 15 | ✅ 18 | ✅ 36 | ✅ 20 | ✅ 21 | ✅ 42 |
+| JPEG q90 | 🟡 11 | ✅ 12 | ✅ 34 | ✅ 16 | ✅ 25 | ✅ 40 |
+| JPEG q75 | 🟡 7 | ❌ 3 | ✅ 22 | ✅ 12 | ✅ 13 | ✅ 29 |
+| JPEG q50 | ❌ 4 | ❌ 2 | ✅ 19 | 🟡 10 | ❌ 1 | ✅ 24 |
+| resize 0.5x | ✅ 10 | ✅ 11 | ✅ 22 | ✅ 14 | ✅ 22 | ✅ 27 |
+| resize 0.75x | ✅ 16 | ✅ 18 | ✅ 31 | ✅ 22 | ✅ 21 | ✅ 37 |
+| resize 1.5x | ✅ 10 | ✅ 17 | ✅ 20 | ✅ 15 | ✅ 20 | ✅ 23 |
+| rotate 90 | ✅ 15 | ✅ 18 | ✅ 36 | ✅ 20 | ✅ 21 | ✅ 42 |
+| rotate 7 (expand) | ✅ 6 | ✅ 7 | ✅ 17 | ✅ 11 | ✅ 11 | ✅ 23 |
+| rotate 30 (crop) | ✅ 11 | ✅ 15 | ✅ 21 | ✅ 19 | ✅ 23 | ✅ 26 |
+| rotate 30 (expand) | ✅ 8 | ✅ 16 | ✅ 24 | ✅ 15 | ✅ 18 | ✅ 29 |
+| horizontal flip | ✅ 15 | ✅ 18 | ✅ 36 | ✅ 20 | ✅ 21 | ✅ 43 |
+| centre crop 50 % area | ✅ 12 | ✅ 12 | ✅ 30 | ✅ 17 | ✅ 15 | ✅ 37 |
+| centre crop 25 % area | 🟡 10 | ✅ 10 | ✅ 15 | ✅ 15 | ✅ 12 | ✅ 21 |
+| hue +60 | 🟡 12 | ✅ 11 | ✅ 32 | ✅ 17 | ✅ 15 | ✅ 37 |
+| grayscale | ✅ 15 | ✅ 17 | ✅ 36 | ✅ 20 | ✅ 21 | ✅ 42 |
+| brightness 1.3 | ✅ 10 | ✅ 17 | ✅ 35 | ✅ 16 | ✅ 21 | ✅ 42 |
+| contrast 0.7 | ✅ 15 | ✅ 18 | ✅ 35 | ✅ 20 | ✅ 21 | ✅ 42 |
+| gamma 0.6 | ✅ 13 | ✅ 18 | ✅ 37 | ✅ 18 | ✅ 21 | ✅ 42 |
+| saturation 2.0 | 🟡 11 | ✅ 15 | ✅ 35 | ✅ 17 | ✅ 18 | ✅ 41 |
+| Gaussian noise sigma 5/255 | ✅ 12 | 🟡 9 | ✅ 35 | ✅ 18 | ✅ 24 | ✅ 42 |
+| Gaussian blur r=1 | ✅ 19 | ✅ 16 | ✅ 21 | ✅ 22 | ✅ 22 | ✅ 26 |
+| sharpen | ✅ 17 | ✅ 17 | ✅ 26 | ✅ 24 | ✅ 21 | ✅ 33 |
+| rotate 15 + resize (net 0.61x) + JPEG q75 | ❌ -0 | ❌ -0 | ✅ 10 | ❌ 4 | ❌ -1 | ✅ 14 |
+| anisotropic resize 1.2x horizontal (aspect search on) | 🟡 8 | ✅ 11 | ✅ 19 | ✅ 13 | ✅ 15 | ✅ 25 |
 
-PSNR at s=1.0: photo 42.9 dB, flat 47.1 dB, texture 40.3 dB; at s=1.5: 39.3 / 43.5 / 36.6 dB.
+PSNR at s=1.0: photo 43.2 dB, flat 47.3 dB, texture 40.4 dB; at s=1.5: 39.6 / 43.7 / 36.6 dB.
 Unmarked images and wrong keys score |z| < 3 in all runs. Detection takes ~1.5 to 2.5 s per
 768 px image on one CPU core (embedding ~0.8 s).
 

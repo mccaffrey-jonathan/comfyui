@@ -197,8 +197,8 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
 
 <header class="top"><div class="wrap">
   <span class="brand">Durable Watermark &amp; Content Credentials</span>
-  <nav><a href="#watermark">Watermark</a><a href="#quality">Image quality</a><a href="#c2pa">C2PA</a><a href="#compliance">Compliance</a><a href="#install">Install</a></nav>
-  <span class="version">release 0.1.0 · 2026-09-13</span>
+  <nav><a href="#watermark">Watermark</a><a href="#quality">Image quality</a><a href="#c2pa">C2PA</a><a href="#compliance">Compliance</a><a href="#reviews">Reviews</a><a href="#install">Install</a></nav>
+  <span class="version">release 0.1.0 · updated 2026-09-17</span>
 </div></header>
 
 <div class="wrap">
@@ -328,12 +328,44 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
     <thead><tr><th>Obligation</th><th>Watermark</th><th>Content Credentials</th></tr></thead>
     <tbody>
       <tr><td><strong>EU AI Act Art. 50(2)</strong>, in force since 2 Aug 2026: outputs "marked in a machine-readable format and detectable as artificially generated"; Code of Practice (June 2026) requires signed metadata <em>and</em> an imperceptible watermark, plus a detection facility</td><td class="yes">imperceptible layer; Detect node and CLI as the detection facility</td><td class="yes">signed, timestamped metadata layer with <code>trainedAlgorithmicMedia</code></td></tr>
-      <tr><td><strong>California B&amp;P §22757.3</strong> (SB 942 / AB 853, operative 2 Aug 2026): latent disclosure with (A) provider name, (B) system name and version, (C) time and date, (D) unique identifier; "consistent with widely accepted industry standards"; "permanent or extraordinarily difficult to remove"; provider must offer a detection tool</td><td class="part">carries a 32-bit id (provider or generation id fragment); survives the edits that strip metadata</td><td class="yes">all four fields in <code>org.comfyui.generation</code>, <code>softwareAgent</code>, action <code>when</code> and the manifest <code>urn:uuid</code></td></tr>
-      <tr><td><strong>SB 1000</strong> (on the Governor's desk, deadline 30 Sep 2026): removes the 1 M-user threshold, adds a created-vs-altered flag</td><td>—</td><td class="yes"><code>c2pa.created</code> vs <code>c2pa.edited</code> plus <code>digitalSourceType</code></td></tr>
+      <tr><td><strong>California B&amp;P §22757.3(b)</strong> (SB 942 / AB 853, operative 2 Aug 2026): latent disclosure with (A) provider name, (B) system name and version, (C) time and date, (D) unique identifier; "consistent with widely accepted industry standards"; "permanent or extraordinarily difficult to remove"; detectable by the provider's own tool</td><td class="part">carries a 32/64-bit id that survives the edits that strip metadata; the four fields must be resolved from the provider's registry (not shipped)</td><td class="yes">all four fields in <code>org.comfyui.generation</code>, <code>softwareAgent</code>, action <code>when</code> and the manifest <code>urn:uuid</code></td></tr>
+      <tr><td><strong>§22757.2</strong> free public detection tool (upload and URL input, API, feedback, no retention of personal provenance data) and <strong>§22757.3(a)</strong> optional visible disclosure</td><td class="no">not shipped: the Detect node and CLI need the private secret and are the back end of such a tool</td><td class="no">no visible-label node; the review includes a design for the tool</td></tr>
+      <tr><td><strong>SB 1000</strong> (on the Governor's desk, deadline 30 Sep 2026): removes the 1 M-user threshold, adds a created-vs-altered flag, replaces the detection tool with a "disclosure verification tool"</td><td>—</td><td class="yes"><code>c2pa.created</code> vs <code>c2pa.edited</code>, <code>created_or_altered</code>, <code>digitalSourceType</code></td></tr>
       <tr><td><strong>Do-not-train signalling</strong> (CAWG assertion referenced by EU Code and industry practice)</td><td>—</td><td class="yes"><code>cawg.training-mining</code></td></tr>
       <tr><td><strong>China GB 45438-2025</strong> implicit-label XMP fields; <strong>Korea, India</strong> visible labels for realistic output</td><td class="part">machine-readable label acceptable in Korea for non-deepfake output</td><td class="no">XMP block and visible labels not produced; mirror the same facts downstream</td></tr>
     </tbody>
   </table></div>
+</section>
+
+<section id="reviews">
+  <div class="eyebrow">Independent reviews · 17 September 2026</div>
+  <h2>What three reviewers found, and what changed</h2>
+  <div class="two">
+    <div class="prose">
+      <p>After the first release, three separate Opus reviewers assessed the packs: an imaging evaluation on 19 renders from ComfyUI's bundled workflow templates (Flux, SDXL, SD 3.5, ControlNet outputs), a gap analysis against EU AI Act Article 50 and the Code of Practice, and one against the California AI Transparency Act. The full reports are in the repository under <code>docs/ai-content-compliance/reviews/</code>.</p>
+      <p><strong>Image quality.</strong> Mean PSNR 39.9 dB and SSIM 0.968 at default strength; presence detected in 89 to 100 percent of images across ten edits, payload recovered in 63 to 95 percent (100 percent on most edits at strength 1.5); zero false positives in 38 negatives and zero wrong payloads that passed the CRC in 380 detections. The mark was visible at 4x zoom in one image's sky, traced to the perceptual mask leaking texture gain into adjacent flat areas. The mask's wide-blur gain is now capped by a narrow-blur view of the texture map and the additive floor is left unmasked, which cut that image's flat-region peak from 31 to 23 of 255 at unchanged robustness; content-adaptive strength (x1.5 on texture-rich content, x1.5 to x2 below 768 and 640 px) is on by default.</p>
+      <p><strong>Regulatory gap analyses.</strong> Both reviewers rate the two-layer architecture as the right shape and the C2PA layer as well executed, and both conclude that a covered provider still needs a public detection or verification tool, a manifest registry behind a permanent URL, a visible-label option and server-side pipeline enforcement, none of which a node pack can supply. They also found, and I fixed, a workflow-format secret leak, a discarded manifest store, a deprecated action label, self-asserted compliance strings inside the manifest, an enforce mode that left key-schedule parameters unpinned, cheap offline passphrase oracles in two published identifiers, a Gaussian tail extrapolated from a max statistic, and an AB 853 misattribution in the docs.</p>
+    </div>
+    <div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Finding</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Secret typed into a widget leaked via front-end workflow JSON</td><td class="yes">fixed</td></tr>
+          <tr><td>Signed manifest store discarded; no registry hook</td><td class="yes">fixed: as-read manifest, registry records, .c2pa sidecar</td></tr>
+          <tr><td>Deprecated <code>c2pa.watermarked</code> action</td><td class="yes">fixed: <code>.bound</code></td></tr>
+          <tr><td>Enforce mode left ring parameters unpinned; no per-image ids</td><td class="yes">fixed: all parameters pinned, payload template</td></tr>
+          <tr><td>Fingerprint and key_id were cheap passphrase oracles</td><td class="yes">fixed: scrypt</td></tr>
+          <tr><td>Gaussian tail on a max-over-search statistic</td><td class="yes">fixed: Gumbel p-value</td></tr>
+          <tr><td>Mask halo visible in flat skies; 512 px images fail to decode</td><td class="yes">fixed: capped mask, adaptive strength</td></tr>
+          <tr><td>Public detection tool (§22757.2 / EU detection facility)</td><td class="no">out of scope; design in the review</td></tr>
+          <tr><td>Manifest registry and resolver</td><td class="no">out of scope; hook shipped</td></tr>
+          <tr><td>Visible label option (§22757.3(a), EU deepfake duty)</td><td class="no">out of scope</td></tr>
+          <tr><td>Soft-binding algorithm not on the C2PA registry</td><td class="part">open</td></tr>
+          <tr><td>Robustness corpus: more keys, adversarial and print-scan tests</td><td class="part">open</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
 </section>
 
 <section id="install">
