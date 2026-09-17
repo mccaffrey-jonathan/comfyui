@@ -142,6 +142,13 @@ Three Opus reviewers assessed the packs after the first release. Their reports a
   prioritised recommendations, operator checklist.
 * [California AI Transparency Act gap review](reviews/california-ai-transparency-act-review.md):
   requirement tables, 14 gaps, a design for the missing §22757.2 tool, operator checklist.
+* [100-render corpus evaluation](reviews/corpus-100-evaluation.md): 100 ComfyUI template
+  renders, three keys, strengths 1.0 / 1.5 / adaptive, 39 edits, zero-bit and 64-bit modes,
+  1,300 negative detections; 14,700 detections in all, run with `tools/eval_corpus.py`. Written
+  after the fixes below, so it measures the revised core. The sandbox could not render new
+  images (no GPU, model hosts unreachable); `tools/corpus/prompts.json` and
+  `tools/corpus/generate_corpus.py` let a GPU machine render a 100-prompt corpus and rerun the
+  same harness.
 
 Findings acted on in the code:
 
@@ -173,8 +180,10 @@ tables such as the one above should be read with that margin in mind.
 
 Findings that remain open because they are outside a node pack: a public detection tool
 (Cal. §22757.2; EU detection facility), a manifest registry/resolver behind a permanent URL, a visible
-label node, server-side pipeline enforcement, registration of the soft-binding algorithm, a larger
-multi-key robustness corpus with adversarial and print-scan tests. Both READMEs now say so up front.
+label node, server-side pipeline enforcement, registration of the soft-binding algorithm, adversarial and
+print-scan tests. The multi-key robustness corpus now exists (100 renders, three keys, 39 edits, see
+[the corpus report](reviews/corpus-100-evaluation.md)); adversarial and print-scan tests are still
+open. Both READMEs say so up front.
 
 ## Threat model and key handling
 

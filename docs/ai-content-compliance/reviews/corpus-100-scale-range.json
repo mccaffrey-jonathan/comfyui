@@ -1,0 +1,674 @@
+[
+ {
+  "image": "03198fea_3d_hunyuan3d_multiview_to_model-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -0.6,
+   "ok": false,
+   "scale": 0.785,
+   "s": 1.49
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 7.4,
+   "ok": true,
+   "scale": 0.35,
+   "s": 1.82
+  }
+ },
+ {
+  "image": "050d51be_txt_to_image_to_video-1.webp",
+  "size": [
+   1024,
+   576
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -1.5,
+   "ok": false,
+   "scale": 1.342,
+   "s": 1.5
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -1.8,
+   "ok": false,
+   "scale": 0.349,
+   "s": 1.83
+  }
+ },
+ {
+  "image": "059321f3_latent_upscale_different_prompt_model-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -1.7,
+   "ok": false,
+   "scale": 1.034,
+   "s": 1.56
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 6.1,
+   "ok": false,
+   "scale": 0.35,
+   "s": 1.88
+  }
+ },
+ {
+  "image": "0844b30b_inpaint_model_outpainting-2.webp",
+  "size": [
+   1024,
+   799
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -1.6,
+   "ok": false,
+   "scale": 1.388,
+   "s": 1.51
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 7.6,
+   "ok": false,
+   "scale": 0.35,
+   "s": 1.85
+  }
+ },
+ {
+  "image": "0a8e5a08_default-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": 1.1,
+   "ok": false,
+   "scale": 0.925,
+   "s": 1.45
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 5.3,
+   "ok": false,
+   "scale": 0.35,
+   "s": 1.86
+  }
+ },
+ {
+  "image": "0ed3fb35_flux_fill_inpaint_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -0.3,
+   "ok": false,
+   "scale": 0.783,
+   "s": 1.47
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 5.5,
+   "ok": false,
+   "scale": 0.35,
+   "s": 1.86
+  }
+ },
+ {
+  "image": "15648c47_mixing_controlnets-2.webp",
+  "size": [
+   578,
+   512
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -0.6,
+   "ok": false,
+   "scale": 0.602,
+   "s": 1.45
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.0,
+   "ok": false,
+   "scale": 0.648,
+   "s": 1.86
+  }
+ },
+ {
+  "image": "1ec497fc_hiresfix_esrgan_workflow-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -0.9,
+   "ok": false,
+   "scale": 1.35,
+   "s": 1.47
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 8.7,
+   "ok": true,
+   "scale": 0.35,
+   "s": 1.83
+  }
+ },
+ {
+  "image": "20c8de83_image_to_video_wan-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -1.6,
+   "ok": false,
+   "scale": 1.155,
+   "s": 1.44
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 8.9,
+   "ok": true,
+   "scale": 0.35,
+   "s": 1.83
+  }
+ },
+ {
+  "image": "23107cd8_hidream_i1_fast-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -0.2,
+   "ok": false,
+   "scale": 0.61,
+   "s": 1.43
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 9.6,
+   "ok": false,
+   "scale": 0.35,
+   "s": 1.84
+  }
+ },
+ {
+  "image": "233a4038_controlnet_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": -1.6,
+   "ok": false,
+   "scale": 0.792,
+   "s": 1.5
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 9.5,
+   "ok": true,
+   "scale": 0.35,
+   "s": 1.9
+  }
+ },
+ {
+  "image": "29588133_depth_controlnet-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "transform": "resize0.35",
+  "default": {
+   "z": 0.8,
+   "ok": false,
+   "scale": 0.79,
+   "s": 1.46
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 2.0,
+   "ok": false,
+   "scale": 0.35,
+   "s": 1.83
+  }
+ },
+ {
+  "image": "9547691e_api_bfl_flux_1_kontext_max_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -0.7,
+   "ok": false,
+   "scale": 0.703,
+   "s": 1.59
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.8,
+   "ok": false,
+   "scale": 0.704,
+   "s": 1.95
+  }
+ },
+ {
+  "image": "30ae51a5_api_bfl_flux_1_kontext_multiple_images_input-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": 1.4,
+   "ok": false,
+   "scale": 1.564,
+   "s": 1.52
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": 1.4,
+   "ok": false,
+   "scale": 1.566,
+   "s": 1.93
+  }
+ },
+ {
+  "image": "4c2a5422_api_bfl_flux_1_kontext_pro_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -0.8,
+   "ok": false,
+   "scale": 1.847,
+   "s": 1.55
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.8,
+   "ok": false,
+   "scale": 1.85,
+   "s": 1.94
+  }
+ },
+ {
+  "image": "2c9535a8_gpt_image_1_inpaint-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -0.4,
+   "ok": false,
+   "scale": 1.305,
+   "s": 1.6
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.4,
+   "ok": false,
+   "scale": 1.304,
+   "s": 1.93
+  }
+ },
+ {
+  "image": "2b9e3aab_image-qwen_image_edit_2511_lora_inflation-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -0.3,
+   "ok": false,
+   "scale": 1.889,
+   "s": 1.56
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.3,
+   "ok": false,
+   "scale": 1.887,
+   "s": 1.97
+  }
+ },
+ {
+  "image": "1211155d_image_qwen_Image_2512_controlnet-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -0.1,
+   "ok": false,
+   "scale": 1.568,
+   "s": 1.58
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.1,
+   "ok": false,
+   "scale": 1.566,
+   "s": 1.92
+  }
+ },
+ {
+  "image": "cfb4fc72_image_qwen_image_2512_with_2steps_lora-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -0.6,
+   "ok": false,
+   "scale": 1.894,
+   "s": 1.54
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -0.6,
+   "ok": false,
+   "scale": 1.897,
+   "s": 1.94
+  }
+ },
+ {
+  "image": "ed3cf648_image_z_image_turbo_fun_union_controlnet-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "social(1080+jpeg80)",
+  "default": {
+   "z": -1.1,
+   "ok": false,
+   "scale": 1.718,
+   "s": 1.57
+  },
+  "wide": {
+   "range": [
+    0.3,
+    3.0
+   ],
+   "z": -1.1,
+   "ok": false,
+   "scale": 1.721,
+   "s": 1.95
+  }
+ },
+ {
+  "image": "9547691e_api_bfl_flux_1_kontext_max_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 4.5,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.43
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 4.5,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.48
+  }
+ },
+ {
+  "image": "30ae51a5_api_bfl_flux_1_kontext_multiple_images_input-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 5.4,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.43
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 5.4,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.46
+  }
+ },
+ {
+  "image": "4c2a5422_api_bfl_flux_1_kontext_pro_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 4.3,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.4
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 4.3,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.49
+  }
+ },
+ {
+  "image": "2c9535a8_gpt_image_1_inpaint-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 7.3,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.45
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 7.3,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.47
+  }
+ },
+ {
+  "image": "2b9e3aab_image-qwen_image_edit_2511_lora_inflation-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 7.3,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.44
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 7.3,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.48
+  }
+ },
+ {
+  "image": "1211155d_image_qwen_Image_2512_controlnet-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 9.7,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.42
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 9.7,
+   "ok": false,
+   "scale": 1.0,
+   "s": 1.5
+  }
+ },
+ {
+  "image": "cfb4fc72_image_qwen_image_2512_with_2steps_lora-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 4.5,
+   "ok": false,
+   "scale": 0.997,
+   "s": 1.41
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 4.5,
+   "ok": false,
+   "scale": 0.997,
+   "s": 1.47
+  }
+ },
+ {
+  "image": "ed3cf648_image_z_image_turbo_fun_union_controlnet-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "transform": "crop25%area",
+  "default": {
+   "z": 2.9,
+   "ok": false,
+   "scale": 0.994,
+   "s": 1.46
+  },
+  "wide": {
+   "range": [
+    0.4,
+    2.5
+   ],
+   "z": 2.9,
+   "ok": false,
+   "scale": 0.994,
+   "s": 1.49
+  }
+ }
+]

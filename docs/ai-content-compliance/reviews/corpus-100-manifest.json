@@ -1,0 +1,1202 @@
+[
+ {
+  "id": "03198fea_3d_hunyuan3d_multiview_to_model-2.webp",
+  "file": "03198fea_3d_hunyuan3d_multiview_to_model-2.webp",
+  "template_image": "3d_hunyuan3d_multiview_to_model-2.webp",
+  "size": [
+   2048,
+   2048
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "050d51be_txt_to_image_to_video-1.webp",
+  "file": "050d51be_txt_to_image_to_video-1.webp",
+  "template_image": "txt_to_image_to_video-1.webp",
+  "size": [
+   1024,
+   576
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_video-0.3.101-py3-none-any.whl"
+ },
+ {
+  "id": "059321f3_latent_upscale_different_prompt_model-1.webp",
+  "file": "059321f3_latent_upscale_different_prompt_model-1.webp",
+  "template_image": "latent_upscale_different_prompt_model-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "0844b30b_inpaint_model_outpainting-2.webp",
+  "file": "0844b30b_inpaint_model_outpainting-2.webp",
+  "template_image": "inpaint_model_outpainting-2.webp",
+  "size": [
+   1024,
+   799
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "0a8e5a08_default-1.webp",
+  "file": "0a8e5a08_default-1.webp",
+  "template_image": "default-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "0ed3fb35_flux_fill_inpaint_example-2.webp",
+  "file": "0ed3fb35_flux_fill_inpaint_example-2.webp",
+  "template_image": "flux_fill_inpaint_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "15648c47_mixing_controlnets-2.webp",
+  "file": "15648c47_mixing_controlnets-2.webp",
+  "template_image": "mixing_controlnets-2.webp",
+  "size": [
+   578,
+   512
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "1ec497fc_hiresfix_esrgan_workflow-1.webp",
+  "file": "1ec497fc_hiresfix_esrgan_workflow-1.webp",
+  "template_image": "hiresfix_esrgan_workflow-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "20c8de83_image_to_video_wan-1.webp",
+  "file": "20c8de83_image_to_video_wan-1.webp",
+  "template_image": "image_to_video_wan-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_video-0.3.101-py3-none-any.whl"
+ },
+ {
+  "id": "23107cd8_hidream_i1_fast-1.webp",
+  "file": "23107cd8_hidream_i1_fast-1.webp",
+  "template_image": "hidream_i1_fast-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "233a4038_controlnet_example-1.webp",
+  "file": "233a4038_controlnet_example-1.webp",
+  "template_image": "controlnet_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "29588133_depth_controlnet-2.webp",
+  "file": "29588133_depth_controlnet-2.webp",
+  "template_image": "depth_controlnet-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "2b3086e0_flux_fill_outpaint_example-1.webp",
+  "file": "2b3086e0_flux_fill_outpaint_example-1.webp",
+  "template_image": "flux_fill_outpaint_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "320d5c6f_flux_depth_lora_example-2.webp",
+  "file": "320d5c6f_flux_depth_lora_example-2.webp",
+  "template_image": "flux_depth_lora_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "36c4d2a3_gligen_textbox_example-1.webp",
+  "file": "36c4d2a3_gligen_textbox_example-1.webp",
+  "template_image": "gligen_textbox_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "3d21c147_sonilo.png",
+  "file": "3d21c147_sonilo.png",
+  "template_image": "sonilo.png",
+  "size": [
+   3000,
+   3000
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_other-0.3.229-py3-none-any.whl"
+ },
+ {
+  "id": "3f2e1040_sd3.5_large_blur-2.webp",
+  "file": "3f2e1040_sd3.5_large_blur-2.webp",
+  "template_image": "sd3.5_large_blur-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "40803010_anthropic.webp",
+  "file": "40803010_anthropic.webp",
+  "template_image": "anthropic.webp",
+  "size": [
+   1280,
+   1280
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_other-0.3.229-py3-none-any.whl"
+ },
+ {
+  "id": "4724632e_controlnet_example-2.webp",
+  "file": "4724632e_controlnet_example-2.webp",
+  "template_image": "controlnet_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "4fe0d71d_sdxl_refiner_prompt_example-1.webp",
+  "file": "4fe0d71d_sdxl_refiner_prompt_example-1.webp",
+  "template_image": "sdxl_refiner_prompt_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "55f11474_depth_controlnet-1.webp",
+  "file": "55f11474_depth_controlnet-1.webp",
+  "template_image": "depth_controlnet-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "5ce9d4c7_sd3.5_large_depth-2.webp",
+  "file": "5ce9d4c7_sd3.5_large_depth-2.webp",
+  "template_image": "sd3.5_large_depth-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "603ce15b_api_stability_ai_audio_inpaint-1.webp",
+  "file": "603ce15b_api_stability_ai_audio_inpaint-1.webp",
+  "template_image": "api_stability_ai_audio_inpaint-1.webp",
+  "size": [
+   1080,
+   1080
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "629621bf_sd3.5_large_canny_controlnet_example-1.webp",
+  "file": "629621bf_sd3.5_large_canny_controlnet_example-1.webp",
+  "template_image": "sd3.5_large_canny_controlnet_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "630858b8_sd3.5_large_depth-1.webp",
+  "file": "630858b8_sd3.5_large_depth-1.webp",
+  "template_image": "sd3.5_large_depth-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "64a855d6_3d_hunyuan3d_multiview_to_model_turbo-2.webp",
+  "file": "64a855d6_3d_hunyuan3d_multiview_to_model_turbo-2.webp",
+  "template_image": "3d_hunyuan3d_multiview_to_model_turbo-2.webp",
+  "size": [
+   2048,
+   2048
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "6b9cd5c0_embedding_example-1.webp",
+  "file": "6b9cd5c0_embedding_example-1.webp",
+  "template_image": "embedding_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "6be2ae57_lora-1.webp",
+  "file": "6be2ae57_lora-1.webp",
+  "template_image": "lora-1.webp",
+  "size": [
+   768,
+   768
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "7938a772_2_pass_pose_worship-1.webp",
+  "file": "7938a772_2_pass_pose_worship-1.webp",
+  "template_image": "2_pass_pose_worship-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "7e3a4985_sdxl_revision_zero_positive-1.webp",
+  "file": "7e3a4985_sdxl_revision_zero_positive-1.webp",
+  "template_image": "sdxl_revision_zero_positive-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "82a4b323_stable_zero123_example-1.webp",
+  "file": "82a4b323_stable_zero123_example-1.webp",
+  "template_image": "stable_zero123_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "8447c77f_area_composition_reversed-1.webp",
+  "file": "8447c77f_area_composition_reversed-1.webp",
+  "template_image": "area_composition_reversed-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "85a5a014_flux_depth_lora_example-1.webp",
+  "file": "85a5a014_flux_depth_lora_example-1.webp",
+  "template_image": "flux_depth_lora_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "893cea78_sd3.5_large_blur-1.webp",
+  "file": "893cea78_sd3.5_large_blur-1.webp",
+  "template_image": "sd3.5_large_blur-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "915def20_2_pass_pose_worship-2.webp",
+  "file": "915def20_2_pass_pose_worship-2.webp",
+  "template_image": "2_pass_pose_worship-2.webp",
+  "size": [
+   682,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "9283b0cb_flux_redux_model_example-1.webp",
+  "file": "9283b0cb_flux_redux_model_example-1.webp",
+  "template_image": "flux_redux_model_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "92af1a43_area_composition_square_area_for_subject-1.webp",
+  "file": "92af1a43_area_composition_square_area_for_subject-1.webp",
+  "template_image": "area_composition_square_area_for_subject-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "9300d7d0_flux_canny_model_example-2.webp",
+  "file": "9300d7d0_flux_canny_model_example-2.webp",
+  "template_image": "flux_canny_model_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "93edaf71_inpaint_model_outpainting-1.webp",
+  "file": "93edaf71_inpaint_model_outpainting-1.webp",
+  "template_image": "inpaint_model_outpainting-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "9436d8f7_wan2.1_flf2v_720_f16-1.webp",
+  "file": "9436d8f7_wan2.1_flf2v_720_f16-1.webp",
+  "template_image": "wan2.1_flf2v_720_f16-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "953231ac_ltxv_text_to_video-1.webp",
+  "file": "953231ac_ltxv_text_to_video-1.webp",
+  "template_image": "ltxv_text_to_video-1.webp",
+  "size": [
+   768,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "9b10509f_sdxlturbo_example-1.webp",
+  "file": "9b10509f_sdxlturbo_example-1.webp",
+  "template_image": "sdxlturbo_example-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "9cb24482_flux_dev_checkpoint_example-1.webp",
+  "file": "9cb24482_flux_dev_checkpoint_example-1.webp",
+  "template_image": "flux_dev_checkpoint_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "a2e91e20_flux_canny_model_example-1.webp",
+  "file": "a2e91e20_flux_canny_model_example-1.webp",
+  "template_image": "flux_canny_model_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "a603bb54_3d_hunyuan3d_multiview_to_model-2.webp",
+  "file": "a603bb54_3d_hunyuan3d_multiview_to_model-2.webp",
+  "template_image": "3d_hunyuan3d_multiview_to_model-2.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "a80b9749_mixing_controlnets-1.webp",
+  "file": "a80b9749_mixing_controlnets-1.webp",
+  "template_image": "mixing_controlnets-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "abc1be6e_image2image-1.webp",
+  "file": "abc1be6e_image2image-1.webp",
+  "template_image": "image2image-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "b032b46a_sd3.5_large_canny_controlnet_example-2.webp",
+  "file": "b032b46a_sd3.5_large_canny_controlnet_example-2.webp",
+  "template_image": "sd3.5_large_canny_controlnet_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "b087c3e8_template_purz_nb2_single_image_sprite_sheet-1.webp",
+  "file": "b087c3e8_template_purz_nb2_single_image_sprite_sheet-1.webp",
+  "template_image": "template_purz_nb2_single_image_sprite_sheet-1.webp",
+  "size": [
+   688,
+   768
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.104-py3-none-any.whl"
+ },
+ {
+  "id": "b2478771_sdxl_simple_example-1.webp",
+  "file": "b2478771_sdxl_simple_example-1.webp",
+  "template_image": "sdxl_simple_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "b41470ed_hidream_i1_full-1.webp",
+  "file": "b41470ed_hidream_i1_full-1.webp",
+  "template_image": "hidream_i1_full-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "b5e012ff_image_to_video-1.webp",
+  "file": "b5e012ff_image_to_video-1.webp",
+  "template_image": "image_to_video-1.webp",
+  "size": [
+   1024,
+   576
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "b6fbb150_sd3.5_simple_example-1.webp",
+  "file": "b6fbb150_sd3.5_simple_example-1.webp",
+  "template_image": "sd3.5_simple_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "b953c560_ltxv_image_to_video-1.webp",
+  "file": "b953c560_ltxv_image_to_video-1.webp",
+  "template_image": "ltxv_image_to_video-1.webp",
+  "size": [
+   768,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_video-0.3.101-py3-none-any.whl"
+ },
+ {
+  "id": "bae16038_depth_t2i_adapter-2.webp",
+  "file": "bae16038_depth_t2i_adapter-2.webp",
+  "template_image": "depth_t2i_adapter-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "bd1318b4_hidream_i1_dev-1.webp",
+  "file": "bd1318b4_hidream_i1_dev-1.webp",
+  "template_image": "hidream_i1_dev-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "c3269d36_lora_multiple-1.webp",
+  "file": "c3269d36_lora_multiple-1.webp",
+  "template_image": "lora_multiple-1.webp",
+  "size": [
+   768,
+   768
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "c416d889_flux_fill_outpaint_example-2.webp",
+  "file": "c416d889_flux_fill_outpaint_example-2.webp",
+  "template_image": "flux_fill_outpaint_example-2.webp",
+  "size": [
+   1024,
+   799
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "c797a718_sdxl_revision_text_prompts-1.webp",
+  "file": "c797a718_sdxl_revision_text_prompts-1.webp",
+  "template_image": "sdxl_revision_text_prompts-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "d1c77087_inpaint_example-2.webp",
+  "file": "d1c77087_inpaint_example-2.webp",
+  "template_image": "inpaint_example-2.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "input_or_secondary",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "d7b8cd4f_hiresfix_latent_workflow-1.webp",
+  "file": "d7b8cd4f_hiresfix_latent_workflow-1.webp",
+  "template_image": "hiresfix_latent_workflow-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "dac7a1b5_inpaint_example-1.webp",
+  "file": "dac7a1b5_inpaint_example-1.webp",
+  "template_image": "inpaint_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "df60834d_flux_schnell-1.webp",
+  "file": "df60834d_flux_schnell-1.webp",
+  "template_image": "flux_schnell-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "e22d5bdc_depth_t2i_adapter-1.webp",
+  "file": "e22d5bdc_depth_t2i_adapter-1.webp",
+  "template_image": "depth_t2i_adapter-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "e71f4684_flux_fill_inpaint_example-1.webp",
+  "file": "e71f4684_flux_fill_inpaint_example-1.webp",
+  "template_image": "flux_fill_inpaint_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.15-py3-none-any.whl"
+ },
+ {
+  "id": "e7fa3b4d_3d_hunyuan3d_image_to_model-1.webp",
+  "file": "e7fa3b4d_3d_hunyuan3d_image_to_model-1.webp",
+  "template_image": "3d_hunyuan3d_image_to_model-1.webp",
+  "size": [
+   512,
+   512
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "ec70ca53_esrgan_example-1.webp",
+  "file": "ec70ca53_esrgan_example-1.webp",
+  "template_image": "esrgan_example-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "f3b19349_wan2.1_fun_control-1.webp",
+  "file": "f3b19349_wan2.1_fun_control-1.webp",
+  "template_image": "wan2.1_fun_control-1.webp",
+  "size": [
+   960,
+   544
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.0-py3-none-any.whl"
+ },
+ {
+  "id": "f779997d_area_composition-1.webp",
+  "file": "f779997d_area_composition-1.webp",
+  "template_image": "area_composition-1.webp",
+  "size": [
+   1024,
+   1024
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "fca33295_ltxv_image_to_video-1.webp",
+  "file": "fca33295_ltxv_image_to_video-1.webp",
+  "template_image": "ltxv_image_to_video-1.webp",
+  "size": [
+   608,
+   608
+  ],
+  "role": "output",
+  "tier": "full",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "9547691e_api_bfl_flux_1_kontext_max_image-1.webp",
+  "file": "9547691e_api_bfl_flux_1_kontext_max_image-1.webp",
+  "template_image": "api_bfl_flux_1_kontext_max_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "30ae51a5_api_bfl_flux_1_kontext_multiple_images_input-1.webp",
+  "file": "30ae51a5_api_bfl_flux_1_kontext_multiple_images_input-1.webp",
+  "template_image": "api_bfl_flux_1_kontext_multiple_images_input-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "4c2a5422_api_bfl_flux_1_kontext_pro_image-1.webp",
+  "file": "4c2a5422_api_bfl_flux_1_kontext_pro_image-1.webp",
+  "template_image": "api_bfl_flux_1_kontext_pro_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates-0.1.40-py3-none-any.whl"
+ },
+ {
+  "id": "2c9535a8_gpt_image_1_inpaint-1.webp",
+  "file": "2c9535a8_gpt_image_1_inpaint-1.webp",
+  "template_image": "gpt_image_1_inpaint-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates-0.1.5-py3-none-any.whl"
+ },
+ {
+  "id": "2b9e3aab_image-qwen_image_edit_2511_lora_inflation-1.webp",
+  "file": "2b9e3aab_image-qwen_image_edit_2511_lora_inflation-1.webp",
+  "template_image": "image-qwen_image_edit_2511_lora_inflation-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "1211155d_image_qwen_Image_2512_controlnet-1.webp",
+  "file": "1211155d_image_qwen_Image_2512_controlnet-1.webp",
+  "template_image": "image_qwen_Image_2512_controlnet-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "cfb4fc72_image_qwen_image_2512_with_2steps_lora-1.webp",
+  "file": "cfb4fc72_image_qwen_image_2512_with_2steps_lora-1.webp",
+  "template_image": "image_qwen_image_2512_with_2steps_lora-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "ed3cf648_image_z_image_turbo_fun_union_controlnet-1.webp",
+  "file": "ed3cf648_image_z_image_turbo_fun_union_controlnet-1.webp",
+  "template_image": "image_z_image_turbo_fun_union_controlnet-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "39e35820_template_qwen_image_illustration_lora-1.webp",
+  "file": "39e35820_template_qwen_image_illustration_lora-1.webp",
+  "template_image": "template_qwen_image_illustration_lora-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_other-0.3.229-py3-none-any.whl"
+ },
+ {
+  "id": "ca1b2f0f_utility_recraft_creative_image_upscale-1.webp",
+  "file": "ca1b2f0f_utility_recraft_creative_image_upscale-1.webp",
+  "template_image": "utility_recraft_creative_image_upscale-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "e3ca6058_utility_recraft_crisp_image_upscale-1.webp",
+  "file": "e3ca6058_utility_recraft_crisp_image_upscale-1.webp",
+  "template_image": "utility_recraft_crisp_image_upscale-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "b0e2a33a_utility_z_image_turbo_2k_upscaler.app-1.webp",
+  "file": "b0e2a33a_utility_z_image_turbo_2k_upscaler.app-1.webp",
+  "template_image": "utility_z_image_turbo_2k_upscaler.app-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "e6ac87d9_02_qwen_Image_edit_subgraphed-1.webp",
+  "file": "e6ac87d9_02_qwen_Image_edit_subgraphed-1.webp",
+  "template_image": "02_qwen_Image_edit_subgraphed-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "0f1f52ae_api_bfl_flux1_expand_image-1.webp",
+  "file": "0f1f52ae_api_bfl_flux1_expand_image-1.webp",
+  "template_image": "api_bfl_flux1_expand_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "1289d517_api_bytedance_seedream_5_0_lite_image_edit-1.webp",
+  "file": "1289d517_api_bytedance_seedream_5_0_lite_image_edit-1.webp",
+  "template_image": "api_bytedance_seedream_5_0_lite_image_edit-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "1ce8e1a0_api_flux_erase_image-1.webp",
+  "file": "1ce8e1a0_api_flux_erase_image-1.webp",
+  "template_image": "api_flux_erase_image-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_other-0.3.229-py3-none-any.whl"
+ },
+ {
+  "id": "4318b060_api_magnific_image_upscale_creative-1.webp",
+  "file": "4318b060_api_magnific_image_upscale_creative-1.webp",
+  "template_image": "api_magnific_image_upscale_creative-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "80a3a107_api_magnific_image_upscale_precise-1.webp",
+  "file": "80a3a107_api_magnific_image_upscale_precise-1.webp",
+  "template_image": "api_magnific_image_upscale_precise-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "e2f56d72_api_nano_banana_2_lite_image_edit-1.webp",
+  "file": "e2f56d72_api_nano_banana_2_lite_image_edit-1.webp",
+  "template_image": "api_nano_banana_2_lite_image_edit-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "79811ce2_api_openai_gpt_image_2_image_edit-1.webp",
+  "file": "79811ce2_api_openai_gpt_image_2_image_edit-1.webp",
+  "template_image": "api_openai_gpt_image_2_image_edit-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "b1cb1715_api_openai_gpt_image_2_t2i-1.webp",
+  "file": "b1cb1715_api_openai_gpt_image_2_t2i-1.webp",
+  "template_image": "api_openai_gpt_image_2_t2i-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_image-0.3.160-py3-none-any.whl"
+ },
+ {
+  "id": "9cfe8755_api_openai_image_1_inpaint-1.webp",
+  "file": "9cfe8755_api_openai_image_1_inpaint-1.webp",
+  "template_image": "api_openai_image_1_inpaint-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "b17cad37_api_recraft_image_gen_with_color_control-1.webp",
+  "file": "b17cad37_api_recraft_image_gen_with_color_control-1.webp",
+  "template_image": "api_recraft_image_gen_with_color_control-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "1d7ec3dc_api_recraft_image_gen_with_style_control-1.webp",
+  "file": "1d7ec3dc_api_recraft_image_gen_with_style_control-1.webp",
+  "template_image": "api_recraft_image_gen_with_style_control-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "d34628cf_api_stability_ai_sd3.5_i2i-1.webp",
+  "file": "d34628cf_api_stability_ai_sd3.5_i2i-1.webp",
+  "template_image": "api_stability_ai_sd3.5_i2i-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "00e2606c_api_stability_ai_sd3.5_t2i-1.webp",
+  "file": "00e2606c_api_stability_ai_sd3.5_t2i-1.webp",
+  "template_image": "api_stability_ai_sd3.5_t2i-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates-0.1.20-py3-none-any.whl"
+ },
+ {
+  "id": "12e06a9f_api_stability_ai_stable_image_ultra_t2i-1.webp",
+  "file": "12e06a9f_api_stability_ai_stable_image_ultra_t2i-1.webp",
+  "template_image": "api_stability_ai_stable_image_ultra_t2i-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ },
+ {
+  "id": "1c12f72e_api_stability_sd3_t2i-1.webp",
+  "file": "1c12f72e_api_stability_sd3_t2i-1.webp",
+  "template_image": "api_stability_sd3_t2i-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates-0.1.8-py3-none-any.whl"
+ },
+ {
+  "id": "4505fab7_api_stability_upscale_fast-1.webp",
+  "file": "4505fab7_api_stability_upscale_fast-1.webp",
+  "template_image": "api_stability_upscale_fast-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_other-0.3.229-py3-none-any.whl"
+ },
+ {
+  "id": "cf8010d0_api_topaz_image_enhance-1.webp",
+  "file": "cf8010d0_api_topaz_image_enhance-1.webp",
+  "template_image": "api_topaz_image_enhance-1.webp",
+  "size": [
+   400,
+   400
+  ],
+  "role": "output",
+  "tier": "thumb",
+  "source_package": "comfyui_workflow_templates_media_api-0.3.84-py3-none-any.whl"
+ }
+]

@@ -55,6 +55,25 @@ gallery_html = "\n".join(f'''
   </figcaption>
 </figure>''' for x in g)
 
+
+# ---- 100-render corpus evaluation (tools/eval_corpus.py) ----
+import base64
+CF = os.environ.get("CORPUS_FIGS", f"{S}/corpus_figs")
+def data_uri(path):
+    mime = "image/jpeg" if path.endswith(".jpg") else "image/png"
+    return f"data:{mime};base64," + base64.b64encode(open(path, "rb").read()).decode()
+corpus = json.load(open(os.environ.get("CORPUS_RESULTS", f"{S}/corpus_eval_results.json")))
+CS = corpus["summary"]; CR = CS["robustness"]
+corpus_rows = ""
+for t, label in [("identity", "identity (8-bit PNG)"), ("jpeg90", "JPEG 90"), ("jpeg75", "JPEG 75"), ("jpeg60", "JPEG 60"), ("webp80", "WebP 80"),
+                 ("resize0.5", "resize 0.5x"), ("resize1.5", "resize 1.5x"), ("rot15_expand", "rotate 15°"), ("rot45_expand", "rotate 45°"), ("flipH", "mirror"),
+                 ("crop50%area", "centre crop, 50 % area"), ("crop25%area", "centre crop, 25 % area"), ("hue+60", "hue +60°"), ("grayscale", "grayscale"),
+                 ("noise5", "noise σ 5"), ("blur1", "Gaussian blur r 1"), ("text_overlay", "text overlay"), ("social(1080+jpeg80)", "social: 1080 px + JPEG 80"),
+                 ("screenshot(0.9+crop+jpeg85)", "screenshot: 0.9x + crop + JPEG 85"), ("combo(rot15+resize0.8+jpeg75)", "rotate 15 + 0.8x + JPEG 75")]:
+    a, b, c = CR["s1.0"][t], CR["s1.5"][t], CR["adaptive"][t]
+    corpus_rows += f'<tr><td>{label}</td><td class="num">{a["payload_rate"]*100:.0f} %</td><td class="num">{b["payload_rate"]*100:.0f} %</td><td class="num">{c["payload_rate"]*100:.0f} %</td><td class="num">{a["z_median"]:.1f}</td></tr>\n'
+CFd = CS["fidelity"]
+
 fs = c2
 size_row = f'''<tr><td>PNG, watermarked, unsigned</td><td class="num">{fs['png_plain_size']/1024:.0f} KB</td></tr>
 <tr><td>PNG + signed manifest (with thumbnail, encrypted assertion)</td><td class="num">{fs['file_size']/1024:.0f} KB</td></tr>
@@ -197,7 +216,7 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
 
 <header class="top"><div class="wrap">
   <span class="brand">Durable Watermark &amp; Content Credentials</span>
-  <nav><a href="#watermark">Watermark</a><a href="#quality">Image quality</a><a href="#c2pa">C2PA</a><a href="#compliance">Compliance</a><a href="#reviews">Reviews</a><a href="#install">Install</a></nav>
+  <nav><a href="#watermark">Watermark</a><a href="#quality">Image quality</a><a href="#c2pa">C2PA</a><a href="#compliance">Compliance</a><a href="#reviews">Reviews</a><a href="#corpus">100-render corpus</a><a href="#install">Install</a></nav>
   <span class="version">release 0.1.0 · updated 2026-09-17</span>
 </div></header>
 
@@ -366,6 +385,38 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
       </table></div>
     </div>
   </div>
+</section>
+
+<section id="corpus">
+  <div class="eyebrow">Expanded evaluation · 100 ComfyUI renders · 14,700 detections</div>
+  <h2>Three keys, 39 edits, a hundred images</h2>
+  <div class="two">
+    <div class="prose">
+      <p>The second evaluation runs <code>tools/eval_corpus.py</code> over 100 renders shipped as example outputs by 73 versions of ComfyUI's workflow-template packages: 70 at 512 to 2048 px (Flux, SDXL, SD 3.5, ControlNet, inpaint and upscale outputs, evaluated at 1024 px) and 30 at 400 px (Flux Kontext, GPT-image, Recraft, Stability, Qwen-Image and Z-Image template outputs). The sandbox has no GPU and cannot reach model hosts, so the 100-prompt set and the generation harness under <code>tools/corpus/</code> are shipped for a GPU machine to render a prompt-diverse corpus and rerun the same harness.</p>
+      <p><strong>Fidelity.</strong> Median PSNR {CFd["s1.0"]["psnr"]["median"]:.1f} dB, SSIM {CFd["s1.0"]["ssim_luma"]["median"]:.3f}, MS-SSIM {CFd["s1.0"]["msssim"]["median"]:.4f} at strength 1.0; the 99.9th-percentile residual in the flattest five percent of each image is {CFd["s1.0"]["flat_p999"]["median"]:.0f} of 255 (median) and {CFd["s1.0"]["flat_p999"]["max"]:.0f} at worst.</p>
+      <p><strong>Reliability.</strong> Payload recovery at strength 1.0 is 95 to 98 percent under colour, tone, mirror, rotate-90, blur and sharpen edits, 82 to 90 percent under JPEG 75 to 90, resizes and 5 to 45 degree rotations, and drops to about half under JPEG 40, WebP 60, 25 percent crops and combined rotate-resize-JPEG edits; strength 1.5 lifts nearly every edit to 95 to 100 percent. The three keys agree within a few points. Across {CS["unmarked"]["n"]} unmarked and {CS["key_mismatch"]["n"]} wrong-key detections the largest presence score was z = {max(CS["unmarked"]["z_max"], CS["key_mismatch"]["z_max"]):.2f} against a threshold of 5: no false alarm. Zero-bit mode detects presence in 93 to 100 percent of images through JPEG 40, 25 percent crops and rotation; the 64-bit payload is markedly weaker. The full report is <code>docs/ai-content-compliance/reviews/corpus-100-evaluation.md</code>.</p>
+    </div>
+    <div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Edit</th><th>s 1.0</th><th>s 1.5</th><th>adaptive</th><th>median z (s 1.0)</th></tr></thead>
+        <tbody>
+{corpus_rows}        </tbody>
+      </table></div>
+      <p style="font-size:0.82rem;color:var(--muted);margin-top:8px">Payload decoded and CRC verified, percent of 100 images (key 0). Adaptive strength is 1.0 to 2.0 depending on texture and size.</p>
+    </div>
+  </div>
+  <figure class="figure">
+    <img src="{data_uri(f"{CF}/payload_rate_by_transform.png")}" alt="Payload recovery per transform" loading="lazy">
+    <figcaption>Payload recovery per edit at the three strength settings. Downscales below 0.4x and upscales above 2.5x fall outside the default scale search.</figcaption>
+  </figure>
+  <figure class="figure">
+    <img src="{data_uri(f"{CF}/z_separation.png")}" alt="Separation of marked and unmarked scores" loading="lazy">
+    <figcaption>Presence scores of unmarked images under the true keys, marked images under wrong keys, and marked images under the true key.</figcaption>
+  </figure>
+  <figure class="figure">
+    <img src="{data_uri(f"{CF}/corpus_contact_sheet.jpg")}" alt="The 100-render corpus" loading="lazy">
+    <figcaption>The corpus: 70 full-size template renders followed by 30 renders shipped at 400 px.</figcaption>
+  </figure>
 </section>
 
 <section id="install">
