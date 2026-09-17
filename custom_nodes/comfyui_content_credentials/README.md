@@ -5,15 +5,15 @@ declaring them AI-generated, carrying the disclosure fields that the
 **EU AI Act (Art. 50(2))** and the **California AI Transparency Act
 (SB 942 / AB 853, B&P Code §22757.3)** ask for, an optional **do-not-train**
 assertion, a **soft binding** to the companion
-[`comfyui_durable_watermark`](../comfyui_durable_watermark) mark, and an optional
+[`ComfyUI-DurableWatermark`](https://github.com/mccaffrey-jonathan/ComfyUI-DurableWatermark) mark, and an optional
 **encrypted private assertion** for details only the provider may read.
 
 Built on the official [`c2pa-python`](https://github.com/contentauth/c2pa-python)
 SDK (MIT/Apache-2.0, c2pa-rs core). Manifests follow the layout used by Adobe
 Firefly, OpenAI and Google in 2026 (`c2pa.actions.v2` / `c2pa.created` /
 `digitalSourceType: trainedAlgorithmicMedia`, object-form `softwareAgent`,
-`cawg.training-mining`). See [`docs/ai-content-compliance`](../../docs/ai-content-compliance)
-in the repository for the research behind these choices.
+`cawg.training-mining`). See the [research and design notes](https://github.com/mccaffrey-jonathan/comfyui/tree/claude/ai-watermarking-compliance-0c2ubb/docs/ai-content-compliance)
+behind these choices.
 
 > C2PA credentials are **signed, not encrypted**: everything in a manifest is
 > public and anyone can strip it by re-encoding the file. That is why the EU
@@ -62,7 +62,8 @@ signature: your certificate, RFC 3161 timestamp, manifest label urn:c2pa:<uuid>
 
 ## Quick start
 
-1. `pip install -r custom_nodes/comfyui_content_credentials/requirements.txt`
+1. `cd ComfyUI/custom_nodes && git clone https://github.com/mccaffrey-jonathan/ComfyUI-ContentCredentials` (or install from the Comfy Registry /
+   ComfyUI-Manager once published), then `pip install -r ComfyUI-ContentCredentials/requirements.txt`
    (`c2pa-python>=0.37`, wheels for Linux x86_64/aarch64, macOS, Windows x64; `cryptography`).
 2. Add **C2PA Signer** with `generate_test_certificate` enabled (development), or point it at a real
    certificate (see below).
@@ -119,7 +120,7 @@ small custom node; `content_credentials.manifest.sign_image_bytes` accepts any
 ## Tests
 
 ```
-cd custom_nodes/comfyui_content_credentials && python -m pytest -q
+python -m pytest -q
 ```
 
 ## License and disclaimer

@@ -17,12 +17,12 @@ California SB 942 "latent disclosure ... extraordinarily difficult to remove").
 * **Honest statistics.** The detector builds an empirical null from wrong keys on the same
   image, so the false-positive estimate accounts for the geometric search.
 * **Designed to pair with C2PA.** The `watermark_record` output feeds the
-  [`comfyui_content_credentials`](../comfyui_content_credentials) save node, which writes a
+  [`ComfyUI-ContentCredentials`](https://github.com/mccaffrey-jonathan/ComfyUI-ContentCredentials) save node, which writes a
   `c2pa.soft-binding` assertion so the signed manifest can be recovered after metadata
   stripping ("durable content credentials").
 
 The scheme is documented in
-[`docs/ai-content-compliance/00-design-and-compliance-overview.md`](../../docs/ai-content-compliance/00-design-and-compliance-overview.md)
+[the design overview](https://github.com/mccaffrey-jonathan/comfyui/tree/claude/ai-watermarking-compliance-0c2ubb/docs/ai-content-compliance/00-design-and-compliance-overview.md)
 (with the legal and state-of-the-art research it is based on). Scheme id:
 `org.comfyui.ringmark.v1`.
 
@@ -103,7 +103,7 @@ plus strong JPEG) exceed the band. Not a substitute for the C2PA manifest: use b
 ## Command line (for providers, CI and detection services)
 
 ```
-cd custom_nodes/comfyui_durable_watermark
+cd ComfyUI/custom_nodes/ComfyUI-DurableWatermark
 python -m durable_watermark embed  in.png out.png --secret env:WM_SECRET --payload acme-provider
 python -m durable_watermark detect out.png        --secret env:WM_SECRET --expect acme-provider --json
 ```
@@ -117,10 +117,19 @@ marked = embed(rgb_float_hwc, cfg, payload_from_string("acme-provider", 32))
 result = detect(marked, cfg)   # .detected, .z_score, .p_value, .payload_hex, .scale, .rotation_deg, .flipped
 ```
 
+## Install
+
+Clone into `ComfyUI/custom_nodes/` (or install from the Comfy Registry / ComfyUI-Manager once
+published). No dependencies beyond ComfyUI's numpy, scipy and Pillow.
+
+```
+cd ComfyUI/custom_nodes && git clone https://github.com/mccaffrey-jonathan/ComfyUI-DurableWatermark
+```
+
 ## Tests
 
 ```
-cd custom_nodes/comfyui_durable_watermark && python -m pytest -q
+python -m pytest -q
 ```
 
 ## License and disclaimer

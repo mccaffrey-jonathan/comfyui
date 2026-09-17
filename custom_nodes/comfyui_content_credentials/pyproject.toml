@@ -9,10 +9,10 @@ requires-python = ">=3.10"
 dependencies = ["c2pa-python>=0.37", "cryptography>=41", "Pillow", "numpy"]
 
 [project.urls]
-Repository = "https://github.com/mccaffrey-jonathan/comfyui"
+Repository = "https://github.com/mccaffrey-jonathan/ComfyUI-ContentCredentials"
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = ""  # set to your registry.comfy.org publisher id before publishing
 DisplayName = "Content Credentials (C2PA)"
 Icon = ""
 
