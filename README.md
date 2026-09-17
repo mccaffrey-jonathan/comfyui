@@ -114,9 +114,9 @@ ComfyUI's bundled workflow templates (Flux, SDXL, SD 3.5, ControlNet outputs at 
 SSIM 0.968 at strength 1.0, presence detected in 89-100 % of images across ten edits, payload
 recovered in 63-95 % (100 % on most edits at strength 1.5), zero false positives in 38 negatives
 and zero wrong payloads that passed the CRC in 380 detections. It found the mark visible at 4x
-zoom in one image's sky at default strength; the perceptual mask has since been changed (texture
-gain is eroded before blurring, the additive floor is no longer masked) which cut that image's
-flat-region peak from 29 to 19 of 255. PSNR mis-ranks this scheme: the residual scales with the
+zoom in one image's sky at default strength; the perceptual mask has since been changed (the wide-blur
+gain is capped by a narrow-blur view of the texture map, and the additive floor is no longer masked)
+which cut that image's flat-region peak from 31 to 23 of 255 at unchanged robustness. PSNR mis-ranks this scheme: the residual scales with the
 host's own in-band energy, so the lowest-PSNR images are the ones where it is least visible.
 
 **Limitations.** Like every post-hoc watermark (SynthID and TrustMark included) it does not

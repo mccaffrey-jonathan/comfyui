@@ -401,25 +401,27 @@ def _bin_index(r: np.ndarray, cfg: WatermarkConfig) -> np.ndarray:
 def _perceptual_mask(y: np.ndarray) -> np.ndarray:
     """Smooth texture-adaptive gain in ~[0.45, 1.8] with mean ~1.
 
-    Deliberately very smooth (sigma ~ 24 px) so that multiplying the residual
-    by it barely smears the ring structure in the frequency domain.
+    The wide blur (sigma ~ 24 px) keeps the mask from smearing the ring structure in the
+    frequency domain, but on its own it projects a textured object's gain ~70 px into the
+    flat area next to it (the "sky ripple" found in the image-quality review).  The gain is
+    therefore capped by a narrow-blur (sigma 6 px) view of the same texture map: flat pixels
+    more than a few pixels from texture stay at the floor, thin edges keep their gain.
     """
     if _ndimage is None:  # pragma: no cover
         return np.ones_like(y)
     mu = _ndimage.uniform_filter(y, size=7, mode="reflect")
     var = _ndimage.uniform_filter(y * y, size=7, mode="reflect") - mu * mu
     std = np.sqrt(np.maximum(var, 0.0))
-    # Erode the texture map first so the blur does not project a textured object's gain
-    # into the flat area next to it (the halo that made skies ripple).
-    std = _ndimage.minimum_filter(std, size=25, mode="reflect")
-    gain = _MASK_FLOOR + std / 0.06
-    gain = np.clip(gain, _MASK_FLOOR, 2.5)
-    gain = _ndimage.gaussian_filter(gain, sigma=24, mode="reflect")
+    raw = np.clip(_MASK_FLOOR + std / 0.06, _MASK_FLOOR, 2.5)
+    gain = _ndimage.gaussian_filter(raw, sigma=24, mode="reflect")
+    local = _ndimage.gaussian_filter(raw, sigma=6, mode="reflect")
+    gain = np.minimum(gain, local + _MASK_CAP_MARGIN)
     gain = gain / max(gain.mean(), 1e-6)
     return np.clip(gain, _MASK_FLOOR, 1.8)
 
 
-_MASK_FLOOR = 0.35
+_MASK_FLOOR = 0.45
+_MASK_CAP_MARGIN = 0.10
 
 
 def image_statistics(image: np.ndarray) -> dict:
