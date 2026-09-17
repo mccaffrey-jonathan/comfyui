@@ -11,7 +11,7 @@ California SB 942 "latent disclosure ... extraordinarily difficult to remove").
 * **Frequency-domain, training-free, pure numpy/scipy.** No model weights, no GPU, ~0.8 s to
   embed and ~2 s to detect a 768 px image on one CPU core. Every line is auditable.
 * **Invariant / robust to:** rotation (any angle, exact for 90-degree steps), flips,
-  translation and cropping, uniform rescaling (0.4x to 2.5x searched), hue / saturation /
+  translation and cropping, uniform rescaling (0.3x to 3x searched), hue / saturation /
   brightness / contrast / gamma / grayscale, JPEG (payload to about q75-q90 and presence to about
   q50-q60 at default strength, depending on content and key), noise, blur, sharpening, and mild
   anisotropic scaling (optional search).
@@ -81,8 +81,15 @@ workflow stamp a per-image value (e.g. the first 8 hex digits of a generation UU
 | 1.5 | 39.6 / 43.7 / 36.6 dB | corpus study: payload on 100 % at JPEG q75, 95 % at q60, 89 % at WebP q80; recommended for providers | heavier combos |
 
 `payload_bits`: 32 by default; 0 makes a zero-bit (presence-only) mark where every chip is
-sync; 64 is possible but halves the per-bit margin. A 32-bit identifier collides at ~77k
-images (birthday bound); providers that need per-image ids should use 64 bits and strength 1.5. Advanced: `r_min`/`r_max` band,
+sync; 64 is possible but halves the per-bit margin. Measured on the 100-render corpus: zero-bit
+is the only mode that is robust at strength 1.0 (presence in 88-100 % of images under every edit
+inside the search range, same fidelity as 32-bit); 32-bit attribution wants strength 1.5 or the
+adaptive default where images will be recompressed, cropped or reposted (94 % payload against
+82 % at 1.0); 64-bit recovers 76 % of payloads even on a clean round trip and is a large-image,
+light-processing option only. A 32-bit identifier collides at ~77k images (birthday bound);
+providers that need per-image ids should use 64 bits at strength 1.5 on images of 1024 px or
+more, or put the per-image id in the C2PA manifest and keep the watermark payload as a
+provider/model id. Advanced: `r_min`/`r_max` band,
 `ring_width` (keep >= 2 / smallest image side; raise it for thumbnails), `perceptual_mask`,
 `noise_floor`.
 
@@ -134,8 +141,10 @@ combo: 85 %). Zero-bit mode detects presence in 93-100 % of images through JPEG 
 and rotation. The three keys agree within a few percentage points. Over 900 unmarked and 400
 wrong-key detections the largest presence score was z = 3.9 (threshold 5): zero false alarms.
 The 64-bit payload is markedly weaker (76 % identity, 30-40 % after JPEG 60-75) and is not
-recommended where the payload matters. Downscales below the 0.4x search floor and upscales
-above 2.5x are missed by construction of the scale search.
+recommended where the payload matters. The corpus run also exposed a hard 2x upscale ceiling in
+the detector's ring guard (fixed: the guard now scales with the hypothesis) and motivated widening
+the default scale search from 0.4-2.5x to 0.3-3x at about 25 % more detection time; see the
+report's post-fix section for the re-measured edits.
 
 **Limitations.** Like every post-hoc watermark (SynthID and TrustMark included) it does not
 survive diffusion regeneration, adversarial spectral attacks, or averaging many images marked

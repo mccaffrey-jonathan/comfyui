@@ -256,3 +256,12 @@ def test_workflow_redaction_helpers():
     extra = {"workflow": {"nodes": [{"type": "DurableWatermarkKey", "widgets_values": ["hunter2", "acme"]}]}, "note": "hunter2"}
     out = keys.redact_extra_pnginfo(extra, prompt)
     assert out["workflow"]["nodes"][0]["widgets_values"] == ["<redacted>", "acme"] and out["note"] == "<redacted>"
+
+
+def test_upscale_beyond_2x_is_detected(image, marked, cfg):
+    """Regression: the fine-grid ring guard used to reject every ring above 2x upscale."""
+    from PIL import Image
+    pil = Image.fromarray((quantize(marked) * 255).astype(np.uint8))
+    big = pil.resize((int(pil.width * 2.6), int(pil.height * 2.6)), Image.LANCZOS)
+    res = detect(np.asarray(big, dtype=np.float64) / 255.0, cfg)
+    assert res.detected and abs(res.scale - 2.6) < 0.1
