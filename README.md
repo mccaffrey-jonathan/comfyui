@@ -12,8 +12,9 @@ California SB 942 "latent disclosure ... extraordinarily difficult to remove").
   embed and ~2 s to detect a 768 px image on one CPU core. Every line is auditable.
 * **Invariant / robust to:** rotation (any angle, exact for 90-degree steps), flips,
   translation and cropping, uniform rescaling (0.4x to 2.5x searched), hue / saturation /
-  brightness / contrast / gamma / grayscale, JPEG (payload to ~q75, presence to ~q50 at
-  default strength), noise, blur, sharpening, and mild anisotropic scaling (optional search).
+  brightness / contrast / gamma / grayscale, JPEG (payload to about q75-q90 and presence to about
+  q50-q60 at default strength, depending on content and key), noise, blur, sharpening, and mild
+  anisotropic scaling (optional search).
 * **Honest statistics.** The detector builds an empirical null from wrong keys on the same
   image, so the false-positive estimate accounts for the geometric search.
 * **Designed to pair with C2PA.** The `watermark_record` output feeds the
@@ -76,8 +77,8 @@ workflow stamp a per-image value (e.g. the first 8 hex digits of a generation UU
 
 | strength | PSNR (photo / flat graphic / texture) | payload survives | presence survives |
 |---|---|---|---|
-| 1.0 (default) | 42.9 / 47.1 / 40.3 dB | JPEG q>=75 on photos, all geometric and colour edits | JPEG q50 |
-| 1.5 | 39.3 / 43.5 / 36.6 dB | JPEG q>=50 on photos, q75 on flat graphics | heavier combos |
+| 1.0 (default) | 43.2 / 47.3 / 40.4 dB | corpus study on 19 renders: payload on 89 % at JPEG q90, 84 % at q75, 63 % at WebP q80; all geometric and colour edits on most images | presence on 89-100 % under every edit tested |
+| 1.5 | 39.6 / 43.7 / 36.6 dB | corpus study: payload on 100 % at JPEG q75, 95 % at q60, 89 % at WebP q80; recommended for providers | heavier combos |
 
 `payload_bits`: 32 by default; 0 makes a zero-bit (presence-only) mark where every chip is
 sync; 64 is possible but halves the per-bit margin. A 32-bit identifier collides at ~77k
@@ -91,21 +92,22 @@ images (birthday bound); providers that need per-image ids should use 64 bits an
 
 | Transform | photo s=1.0 | flat s=1.0 | texture s=1.0 | photo s=1.5 | flat s=1.5 | texture s=1.5 |
 |---|---|---|---|---|---|---|
-| identity / 8-bit PNG | ✅ 19 | ✅ 18 | ✅ 41 | ✅ 25 | ✅ 20 | ✅ 42 |
-| JPEG q90 | ✅ 15 | ✅ 14 | ✅ 41 | ✅ 21 | ✅ 22 | ✅ 41 |
-| JPEG q75 | ✅ 11 | ❌ 2 | ✅ 26 | ✅ 17 | ✅ 15 | ✅ 31 |
-| JPEG q50 | 🟡 7 | ❌ 0 | ✅ 21 | ✅ 12 | ❌ 0 | ✅ 26 |
-| resize 0.5x / 0.75x / 1.5x | ✅ 12 / 16 / 11 | ✅ 14 / 15 / 16 | ✅ 31 / 37 / 22 | ✅ 17 / 22 / 15 | ✅ 22 / 18 / 18 | ✅ 34 / 40 / 24 |
-| rotate 90 / 7 / 30 | ✅ 19 / 10 / 11 | ✅ 18 / 10 / 15 | ✅ 41 / 20 / 23 | ✅ 25 / 15 / 17 | ✅ 20 / 16 / 21 | ✅ 42 / 25 / 30 |
-| horizontal flip | ✅ 19 | ✅ 18 | ✅ 42 | ✅ 25 | ✅ 20 | ✅ 42 |
-| centre crop 50 % / 25 % area | ✅ 16 / 13 | ✅ 11 / 7 | ✅ 36 / 22 | ✅ 21 / 18 | ✅ 14 / 11 | ✅ 35 / 26 |
-| hue +60 / grayscale / saturation 2x | ✅ 15 / 18 / 14 | ✅ 13 / 18 / 15 | ✅ 37 / 41 / 41 | ✅ 20 / 24 / 21 | ✅ 18 / 20 / 18 | ✅ 39 / 42 / 41 |
-| brightness 1.3 / contrast 0.7 / gamma 0.6 | ✅ 13 / 19 / 16 | ✅ 17 / 18 / 18 | ✅ 42 / 41 / 42 | ✅ 19 / 24 / 22 | ✅ 19 / 20 / 20 | ✅ 43 / 42 / 43 |
-| noise sigma 5/255 / blur r1 / sharpen | ✅ 17 / 19 / 19 | 🟡 10 / ✅ 18 / ✅ 18 | ✅ 41 / 19 / 30 | ✅ 22 / 24 / 25 | ✅ 22 / 22 / 20 | ✅ 43 / 24 / 36 |
-| rotate 15 + net 0.61x resize + JPEG q75 | ❌ 0 | ❌ 0 | ✅ 10 | ❌ 4 | ❌ -1 | ✅ 16 |
-| anisotropic 1.2x horizontal (aspect search) | ✅ 9 | ✅ 11 | ✅ 21 | ✅ 15 | ✅ 14 | ✅ 26 |
+| identity / 8-bit PNG | ✅ 15 | ✅ 18 | ✅ 36 | ✅ 20 | ✅ 21 | ✅ 42 |
+| JPEG q90 | 🟡 11 | ✅ 12 | ✅ 34 | ✅ 16 | ✅ 25 | ✅ 40 |
+| JPEG q75 | 🟡 7 | ❌ 3 | ✅ 22 | ✅ 12 | ✅ 13 | ✅ 29 |
+| JPEG q50 | ❌ 4 | ❌ 2 | ✅ 19 | 🟡 10 | ❌ 1 | ✅ 24 |
+| resize 0.5x / 0.75x / 1.5x | ✅ 10 / 16 / 10 | ✅ 11 / 18 / 17 | ✅ 22 / 31 / 20 | ✅ 14 / 22 / 15 | ✅ 22 / 21 / 20 | ✅ 27 / 37 / 23 |
+| rotate 90 / 7 / 30 | ✅ 15 / 6 / 11 | ✅ 18 / 7 / 15 | ✅ 36 / 17 / 21 | ✅ 20 / 11 / 19 | ✅ 21 / 11 / 23 | ✅ 42 / 23 / 26 |
+| horizontal flip | ✅ 15 | ✅ 18 | ✅ 36 | ✅ 20 | ✅ 21 | ✅ 43 |
+| centre crop 50 % / 25 % area | ✅ 12 / 🟡 10 | ✅ 12 / 10 | ✅ 30 / 15 | ✅ 17 / 15 | ✅ 15 / 12 | ✅ 37 / 21 |
+| hue +60 / grayscale / saturation 2x | 🟡 12 / ✅ 15 / 🟡 11 | ✅ 11 / 17 / 15 | ✅ 32 / 36 / 35 | ✅ 17 / 20 / 17 | ✅ 15 / 21 / 18 | ✅ 37 / 42 / 41 |
+| brightness 1.3 / contrast 0.7 / gamma 0.6 | ✅ 10 / 15 / 13 | ✅ 17 / 18 / 18 | ✅ 35 / 35 / 37 | ✅ 16 / 20 / 18 | ✅ 21 / 21 / 21 | ✅ 42 / 42 / 42 |
+| noise sigma 5/255 / blur r1 / sharpen | ✅ 12 / 19 / 17 | 🟡 9 / ✅ 16 / ✅ 17 | ✅ 35 / 21 / 26 | ✅ 18 / 22 / 24 | ✅ 24 / 22 / 21 | ✅ 42 / 26 / 33 |
+| rotate 15 + net 0.61x resize + JPEG q75 | ❌ -0 | ❌ -0 | ✅ 10 | ❌ 4 | ❌ -1 | ✅ 14 |
+| anisotropic 1.2x horizontal (aspect search) | 🟡 8 | ✅ 11 | ✅ 19 | ✅ 13 | ✅ 15 | ✅ 25 |
 
-Unmarked images and wrong keys score |z| < 3. Reproduce with `python tools/bench.py [strength] [payload_bits]` (add your own images to the
+Single key and three images: read with a margin of about two z-points (five-key spread in the design
+overview). Unmarked images and wrong keys score |z| < 3. Reproduce with `python tools/bench.py [strength] [payload_bits]` (add your own images to the
 `images` dict) or via the CLI.
 
 **Independent evaluation on ComfyUI renders.** An Opus-reviewed evaluation on 19 renders from
