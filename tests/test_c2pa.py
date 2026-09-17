@@ -79,7 +79,9 @@ def test_manifest_shape():
     assert "c2pa.soft-binding" in labels and "org.comfyui.private" in labels
     gen = next(a["data"] for a in m["assertions"] if a["label"] == "org.comfyui.generation")
     assert gen["provider"] == "Acme AI" and gen["generation_id"] == opts.generation_id
-    assert gen["claims"]["ai_generated"] is True
+    assert gen["ai_generated"] is True and gen["created_or_altered"] == "created"
+    assert "regulatory_notes" not in gen and "claims" not in gen
+    assert m["assertions"][0]["data"]["actions"][1]["action"] == "c2pa.watermarked.bound"
     assert m["claim_generator_info"][0]["name"] == "ComfyUI"
     box = next(a["data"] for a in m["assertions"] if a["label"] == "org.comfyui.private")
     assert decrypt_json(box, "pp") == {"user": "u-1"} or decrypt_json(box, "pp")["user"] == "u-1"
@@ -142,3 +144,42 @@ def test_tamper_detection(signer_cfg, png_bytes):
 def test_unsigned_image_has_no_manifest(png_bytes):
     assert read_manifest(data=png_bytes, mime="image/png") == {"has_manifest": False}
     assert summarize({"has_manifest": False})["ai_generated"] is None
+
+
+def test_crypto_box_scrypt_and_legacy():
+    box = encrypt_json({"a": 1}, "pw")
+    assert box["kdf"] == "scrypt" and box["salt"] and len(box["key_id"]) == 16
+    assert decrypt_json(box, "pw") == {"a": 1}
+    # two boxes with the same passphrase publish different key ids (per-box salt)
+    assert encrypt_json({"a": 1}, "pw")["key_id"] != box["key_id"]
+    # boxes written by 0.1.0 (HKDF, fixed salt) still open
+    import base64
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+    key = HKDF(algorithm=hashes.SHA256(), length=32, salt=b"comfyui-c2pa-private-v1",
+               info=b"comfyui-content-credentials/private-assertion/v1").derive(b"pw")
+    nonce = b"\x01" * 12
+    ct = AESGCM(key).encrypt(nonce, b'{"legacy":true}', None)
+    legacy = {"alg": "A256GCM", "kdf": "HKDF-SHA256", "nonce": base64.b64encode(nonce).decode(),
+              "ciphertext": base64.b64encode(ct).decode(), "aad": ""}
+    assert decrypt_json(legacy, "pw") == {"legacy": True}
+
+
+def test_redaction_fallback_covers_workflow_format():
+    from content_credentials.redact import redact_extra_pnginfo, redact_prompt, sensitive_literals
+
+    prompt = {"9": {"class_type": "DurableWatermarkKey", "inputs": {"secret": "hunter2", "payload": "acme"}},
+              "12": {"class_type": "C2PASaveImage", "inputs": {"private_passphrase": "pp-literal", "provider_name": "Acme"}},
+              "13": {"class_type": "C2PASigner", "inputs": {"private_key": "config/key.pem"}}}
+    assert sensitive_literals(prompt) == {"hunter2", "pp-literal"}
+    red = redact_prompt(prompt)
+    assert red["9"]["inputs"]["secret"] == "<redacted>" and red["12"]["inputs"]["private_passphrase"] == "<redacted>"
+    assert red["13"]["inputs"]["private_key"] == "config/key.pem"
+    extra = {"workflow": {"nodes": [{"id": 9, "type": "DurableWatermarkKey", "widgets_values": ["hunter2", "acme", 32, 1.0]},
+                                    {"id": 12, "type": "C2PASaveImage", "widgets_values": ["x", "png", 95, "Acme", "pp-literal"]}]}}
+    out = redact_extra_pnginfo(extra, prompt)
+    assert out["workflow"]["nodes"][0]["widgets_values"][0] == "<redacted>"
+    assert out["workflow"]["nodes"][1]["widgets_values"][4] == "<redacted>"
+    assert out["workflow"]["nodes"][1]["widgets_values"][3] == "Acme"
+    assert extra["workflow"]["nodes"][0]["widgets_values"][0] == "hunter2"  # input untouched

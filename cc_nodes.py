@@ -50,13 +50,15 @@ def _expand(value: str) -> str:
     return v
 
 
-def _redact(prompt):
+def _redact(prompt, extra):
+    """Blank secret widget values (watermark secret, private passphrase, PEM keys) in both the
+    API prompt and EXTRA_PNGINFO (front-end workflow with widgets_values)."""
     try:
-        from durable_watermark.keys import redact_prompt
-
-        return redact_prompt(prompt)
-    except Exception:
-        return prompt
+        from durable_watermark.keys import redact_extra_pnginfo, redact_prompt
+    except Exception:  # watermark pack not installed: use the local fallback
+        from content_credentials.redact import redact_extra_pnginfo, redact_prompt
+    return (redact_prompt(prompt) if prompt is not None else None,
+            redact_extra_pnginfo(extra, prompt) if extra is not None else None)
 
 
 class C2PASigner(cio.ComfyNode):
@@ -169,8 +171,14 @@ class C2PASaveImage(cio.ComfyNode):
                                   tooltip="Include the full prompt/workflow in the encrypted private assertion."),
                 cio.Image.Input("parent_image", optional=True,
                                 tooltip="Input image for img2img/inpainting; recorded as parent ingredient."),
+                cio.Boolean.Input("write_manifest_sidecar", default=False, optional=True,
+                                  tooltip="Also write <file>.c2pa (the signed manifest store) next to the image, so a "
+                                          "registry can serve it after the embedded copy is stripped."),
             ],
-            outputs=[cio.String.Output(display_name="file_paths"), cio.String.Output(display_name="manifest_json")],
+            outputs=[cio.String.Output(display_name="file_paths"),
+                     cio.String.Output(display_name="manifest_json", tooltip="Signed manifest(s) as read back from the file, incl. signature info."),
+                     cio.String.Output(display_name="registry_records", tooltip="JSON list: generation_id, file, watermark payload, "
+                                                                                "key fingerprint and the four disclosure fields, for your manifest registry.")],
             hidden=[cio.Hidden.prompt, cio.Hidden.extra_pnginfo],
             is_output_node=True,
         )
@@ -179,7 +187,7 @@ class C2PASaveImage(cio.ComfyNode):
     def execute(cls, images, signer, filename_prefix, format, quality, provider_name, system_name, system_version,
                 model_name="", digital_source_type="trainedAlgorithmicMedia", do_not_train=True,
                 embed_workflow_metadata=True, workflow_in_manifest=False, watermark_record="", private_details="",
-                private_passphrase="", encrypt_prompt=False, parent_image=None) -> cio.NodeOutput:
+                private_passphrase="", encrypt_prompt=False, parent_image=None, write_manifest_sidecar=False) -> cio.NodeOutput:
         try:
             import c2pa  # noqa: F401
         except ImportError as exc:
@@ -194,7 +202,7 @@ class C2PASaveImage(cio.ComfyNode):
 
         prompt = cls.hidden.prompt if cls.hidden else None
         extra = cls.hidden.extra_pnginfo if cls.hidden else None
-        red_prompt = _redact(prompt) if prompt is not None else None
+        red_prompt, extra = _redact(prompt, extra)
         workflow = None
         if extra and isinstance(extra, dict):
             workflow = extra.get("workflow")
@@ -213,7 +221,7 @@ class C2PASaveImage(cio.ComfyNode):
             except json.JSONDecodeError:
                 priv = {"details": private_details}
             if encrypt_prompt:
-                priv["prompt"] = prompt
+                priv["prompt"] = red_prompt
                 priv["workflow"] = workflow
         elif private_details and not passphrase:
             log.warning("content_credentials: private_details given without private_passphrase; not stored")
@@ -224,7 +232,7 @@ class C2PASaveImage(cio.ComfyNode):
             Image.fromarray(np.clip(255.0 * parent_image[0].cpu().numpy(), 0, 255).astype(np.uint8)).save(pb, "PNG")
             parent_bytes = pb.getvalue()
 
-        results, paths, manifests = [], [], []
+        results, paths, manifests, records = [], [], [], []
         c2pa_signer = make_signer(scfg)
         try:
             for batch_number, image in enumerate(images):
@@ -260,14 +268,28 @@ class C2PASaveImage(cio.ComfyNode):
                     is_edit_of_input=parent_bytes is not None,
                 )
                 manifest = build_manifest(opts)
-                signed, _store = sign_image_bytes(buf.getvalue(), mime, manifest, c2pa_signer,
-                                                  parent_bytes=parent_bytes, parent_mime="image/png")
+                signed, store = sign_image_bytes(buf.getvalue(), mime, manifest, c2pa_signer,
+                                                 parent_bytes=parent_bytes, parent_mime="image/png")
                 path = os.path.join(full_output_folder, file)
                 with open(path, "wb") as fh:
                     fh.write(signed)
+                if write_manifest_sidecar:
+                    with open(path + ".c2pa", "wb") as fh:
+                        fh.write(store)
+                info = read_manifest(data=signed, mime=mime)
+                active = info.get("active_manifest", {}) if info.get("has_manifest") else {}
                 results.append(ui.SavedResult(file, subfolder, cio.FolderType.output))
                 paths.append(path)
-                manifests.append(manifest)
+                manifests.append(active or manifest)
+                records.append({
+                    "generation_id": gen_id, "file": path, "manifest_label": active.get("label"),
+                    "sidecar": path + ".c2pa" if write_manifest_sidecar else None,
+                    "provider": provider_name, "system": {"name": system_name or "ComfyUI", "version": system_version or _comfy_version()},
+                    "created": opts.timestamp(), "created_or_altered": "altered" if parent_bytes is not None else "created",
+                    "digital_source_type": digital_source_type,
+                    "watermark": {"scheme": wm.get("scheme"), "payload_hex": wm.get("payload_hex"),
+                                  "key_fingerprint": wm.get("key_fingerprint")} if wm else None,
+                })
                 counter += 1
         finally:
             try:
@@ -275,7 +297,7 @@ class C2PASaveImage(cio.ComfyNode):
             except Exception:  # pragma: no cover
                 pass
         return cio.NodeOutput(json.dumps(paths), json.dumps(manifests if len(manifests) > 1 else manifests[0], indent=2),
-                              ui=ui.SavedImages(results))
+                              json.dumps(records, indent=2), ui=ui.SavedImages(results))
 
 
 class C2PAReadManifest(cio.ComfyNode):

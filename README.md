@@ -22,13 +22,33 @@ behind these choices.
 > durable watermark. Only the optional `org.comfyui.private` assertion is
 > encrypted (AES-256-GCM).
 
+## What this pack does not do (read before relying on it)
+
+Two independent gap reviews (EU AI Act and California AI Transparency Act, in
+`docs/ai-content-compliance/reviews/`) found that a covered provider still needs, **outside these nodes**:
+
+* **A public detection / verification tool** (Cal. B&P §22757.2: free, upload *and* URL input, API,
+  feedback channel, no retention of personal provenance data; EU Code of Practice "detection
+  facility"). The Detect node and CLI need the provider's private secret and are the *back end* of such
+  a tool, not the tool.
+* **A manifest registry / resolver.** Once a platform re-encodes the file the manifest is gone and only the
+  watermark's payload survives. Persist the save node's `registry_records` output (and, optionally, the
+  `.c2pa` sidecar written by `write_manifest_sidecar`) keyed by `key_fingerprint` + `payload_hex`, and serve
+  the four disclosure fields from a permanent URL.
+* **A visible ("manifest") disclosure option** (§22757.3(a), live today; EU deployer duty for deepfakes).
+  Burn a label in with an image node when required; this pack writes metadata only.
+* **Enforcement.** Nothing prevents a workflow from using stock *Save Image* instead of this node; a provider
+  must enforce the pipeline server-side.
+* The `c2pa.soft-binding` algorithm id `org.comfyui.ringmark.v1` is **not on the C2PA soft-binding
+  registry**, so third-party verifiers will not resolve it; it is meaningful only to your own resolver.
+
 ## Nodes
 
 | Node | Purpose |
 |---|---|
 | **C2PA Signer (certificate)** | Loads the PEM certificate chain + private key (path, PEM text, `env:NAME`, `file:PATH`, or `C2PA_SIGN_CERT` / `C2PA_PRIVATE_KEY`, or `config/c2pa_cert_chain.pem` + `config/c2pa_private_key.pem`). Algorithms: es256/384/512, ps256/384/512, ed25519. RFC 3161 timestamping (default DigiCert TSA). Can mint a **test** chain. |
 | **C2PA Generate Test Certificate** | Creates a private test root CA and a claim-signing leaf (EC P-256 by default). Development only. |
-| **Save Image with Content Credentials (C2PA)** | Output node. Encodes PNG / JPEG / WebP, keeps ComfyUI prompt/workflow PNG metadata (watermark secrets redacted), builds and signs the manifest, writes the file. Must be the **last** writer of the file. |
+| **Save Image with Content Credentials (C2PA)** | Output node. Encodes PNG / JPEG / WebP, keeps ComfyUI prompt/workflow PNG metadata (secret widget values redacted in both the API prompt and the front-end workflow), builds and signs the manifest, writes the file (optionally a `.c2pa` sidecar of the signed manifest store). Outputs the file paths, the manifest **as read back** (with signature info) and `registry_records` for your resolver. Must be the **last** writer of the file. |
 | **C2PA Read / Verify Manifest** | Reads a file (absolute path or a name in `input/` / `output/`), returns `has_manifest`, `ai_generated`, `validation_state` (`Invalid` / `Valid` / `Trusted`), a compliance summary and the full manifest store JSON. Optional extra trust anchors (your test root) make test manifests `Trusted`. |
 | **C2PA Decrypt Private Assertion** | Opens the encrypted `org.comfyui.private` assertion with the provider passphrase. |
 
@@ -41,16 +61,16 @@ assertions:
   c2pa.actions.v2
     - c2pa.created   (or c2pa.edited when a parent_image is connected)
         when: <RFC 3339 UTC>                                   # SB 942 (C) time and date
-        digitalSourceType: .../trainedAlgorithmicMedia          # EU Art. 50(2); SB 942 (E) created/altered
+        digitalSourceType: .../trainedAlgorithmicMedia          # EU Art. 50(2) machine-readable marking
         softwareAgent: {name, version}                          # SB 942 (B) system name + version
         parameters: {org.comfyui.generation_id: <uuid>, org.comfyui.model: <model>}
-    - c2pa.watermarked   (when a watermark_record is connected)
-  org.comfyui.generation  (Json)   provider (SB 942 (A)), system, model, created,
+    - c2pa.watermarked.bound   (when a watermark_record is connected)
+  org.comfyui.generation  (Json)   provider (SB 942 (A)), system, model, created, created_or_altered,
                                    generation_id (SB 942 (D)), image size, prompt/workflow SHA-256
   cawg.training-mining             ai_generative_training / ai_training / ai_inference / data_mining: notAllowed
   c2pa.soft-binding                alg: org.comfyui.ringmark.v1, value: "<scheme>*<payload_hex>*<key_fingerprint>"
   org.comfyui.watermark   (Json)   the watermark record (payload, public parameters, key fingerprint)
-  org.comfyui.private     (Json)   AES-256-GCM box {alg, kdf, key_id, nonce, ciphertext}   (optional)
+  org.comfyui.private     (Json)   AES-256-GCM box, scrypt-derived key, per-box salt      (optional)
   org.comfyui.workflow    (Json)   redacted prompt + workflow                                 (optional, public!)
 signature: your certificate, RFC 3161 timestamp, manifest label urn:c2pa:<uuid>
 ```
@@ -102,7 +122,7 @@ small custom node; `content_credentials.manifest.sign_image_bytes` accepts any
 | Requirement | Where it lands |
 |---|---|
 | EU AI Act Art. 50(2): output "marked in a machine-readable format and detectable as artificially generated" (applies since 2 Aug 2026; Code of Practice: signed metadata **and** imperceptible watermark) | signed manifest + `trainedAlgorithmicMedia`; watermark via the companion pack; soft binding links the two |
-| California §22757.3(b) latent disclosure: (A) provider name, (B) system name + version, (C) time/date, (D) unique identifier, (AB 853/SB 1000: created vs altered) | `org.comfyui.generation.provider`, `softwareAgent{name,version}` + `claim_generator_info`, `when` + TSA timestamp, `generation_id` + manifest `urn:uuid`, `c2pa.created` vs `c2pa.edited` + `digitalSourceType` |
+| California §22757.3(b) latent disclosure: (A) provider name, (B) system name + version, (C) time/date, (D) unique identifier (a created-vs-altered element is pending in SB 1000, not current law) | `org.comfyui.generation.provider`, `softwareAgent{name,version}` + `claim_generator_info`, `when` + TSA timestamp, `generation_id` + manifest `urn:uuid`, `c2pa.created` vs `c2pa.edited` + `digitalSourceType` |
 | California "permanent or extraordinarily difficult to remove" | metadata alone is not; pair with the durable watermark (payload = provider ID / generation id fragment) |
 | China GB 45438-2025 implicit label (`Label`, `ContentProducer`, `ProduceID` XMP) | not written by this pack; the same facts are in `org.comfyui.generation` and can be mirrored into XMP downstream |
 | Visible ("manifest") label for deepfakes (EU Art. 50(4), China, Korea, India) | out of scope; burn a label in with an image node when required |

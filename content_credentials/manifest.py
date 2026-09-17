@@ -6,13 +6,14 @@ The manifest layout follows what Adobe Firefly, OpenAI and Google emit in 2026:
 * ``claim_generator_info``          -> system name + version (SB 942 (B))
 * ``c2pa.actions.v2`` / ``c2pa.created`` with ``digitalSourceType``
   ``trainedAlgorithmicMedia`` (or ``compositeWithTrainedAlgorithmicMedia`` for
-  img2img / inpainting) and an object-form ``softwareAgent``  (EU AI Act Art.
-  50(2) machine-readable marking; SB 942 (E) "created vs altered")
+  img2img / inpainting) and an object-form ``softwareAgent``  (the machine-
+  readable marking Art. 50(2) asks for; ``c2pa.created`` vs ``c2pa.edited`` is
+  the created-vs-altered signal that pending California SB 1000 would add)
 * ``when`` + RFC 3161 timestamp     -> time and date (SB 942 (C))
 * manifest ``urn:uuid`` label + our ``generation_id`` -> unique identifier (SB 942 (D))
 * ``org.comfyui.generation``        -> provider name (SB 942 (A)), model, seed, hashes
 * ``cawg.training-mining``          -> do-not-train preferences (optional)
-* ``c2pa.soft-binding`` + ``c2pa.watermarked`` -> link to the durable watermark
+* ``c2pa.soft-binding`` + ``c2pa.watermarked.bound`` -> link to the durable watermark
   so the credential can be re-associated after metadata stripping
 * ``org.comfyui.private``           -> optional AES-GCM encrypted details
 """
@@ -89,7 +90,7 @@ def build_manifest(opts: ManifestOptions) -> dict:
     actions = [action]
     if opts.watermark_record:
         actions.append({
-            "action": "c2pa.watermarked",
+            "action": "c2pa.watermarked.bound",
             "when": when,
             "softwareAgent": {"name": "comfyui-durable-watermark"},
             "parameters": {"description": "Keyed invisible watermark (soft binding) applied to the pixels."},
@@ -102,13 +103,8 @@ def build_manifest(opts: ManifestOptions) -> dict:
         "digital_source_type": dst,
         "created": when,
         "generation_id": opts.generation_id,
-        "claims": {
-            "ai_generated": dst.endswith("trainedAlgorithmicMedia") or dst.endswith("compositeWithTrainedAlgorithmicMedia"),
-            "regulatory_notes": [
-                "EU AI Act Art. 50(2) machine-readable marking",
-                "California B&P Code 22757.3 latent disclosure fields: provider, system name/version, time, unique id",
-            ],
-        },
+        "ai_generated": dst.endswith("trainedAlgorithmicMedia") or dst.endswith("compositeWithTrainedAlgorithmicMedia"),
+        "created_or_altered": "altered" if opts.is_edit_of_input else "created",
     }
     generation.update({k: v for k, v in (opts.generation_details or {}).items() if v is not None})
     if opts.prompt is not None:
