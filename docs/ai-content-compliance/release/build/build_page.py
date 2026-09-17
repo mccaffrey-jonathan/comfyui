@@ -376,11 +376,13 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
           <tr><td>Fingerprint and key_id were cheap passphrase oracles</td><td class="yes">fixed: scrypt</td></tr>
           <tr><td>Gaussian tail on a max-over-search statistic</td><td class="yes">fixed: Gumbel p-value</td></tr>
           <tr><td>Mask halo visible in flat skies; 512 px images fail to decode</td><td class="yes">fixed: capped mask, adaptive strength</td></tr>
+          <tr><td>Corpus run: ring guard stopped the scale search at 2x upscale (advertised 2.5x)</td><td class="yes">fixed: scale-aware guard, 0.3 to 3x default search, regression test</td></tr>
+          <tr><td>Corpus run: adaptive strength raised on line art and edge maps where the mark was visible</td><td class="yes">fixed: texture boost gated on flat fraction</td></tr>
           <tr><td>Public detection tool (§22757.2 / EU detection facility)</td><td class="no">out of scope; design in the review</td></tr>
           <tr><td>Manifest registry and resolver</td><td class="no">out of scope; hook shipped</td></tr>
           <tr><td>Visible label option (§22757.3(a), EU deepfake duty)</td><td class="no">out of scope</td></tr>
           <tr><td>Soft-binding algorithm not on the C2PA registry</td><td class="part">open</td></tr>
-          <tr><td>Robustness corpus: more keys, adversarial and print-scan tests</td><td class="part">open</td></tr>
+          <tr><td>Robustness corpus: more keys (done, 100 renders, three keys), adversarial and print-scan tests</td><td class="part">partly open</td></tr>
         </tbody>
       </table></div>
     </div>
@@ -407,7 +409,7 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
   </div>
   <figure class="figure">
     <img src="{data_uri(f"{CF}/payload_rate_by_transform.png")}" alt="Payload recovery per transform" loading="lazy">
-    <figcaption>Payload recovery per edit at the three strength settings. Downscales below 0.4x and upscales above 2.5x fall outside the default scale search.</figcaption>
+    <figcaption>Payload recovery per edit at the three strength settings. Measured before the fixes this run motivated: the detector's ring guard stopped the scale search at 2x, which is why 0.35x downscales and the 400 px social case score zero here; the report's post-fix section re-measures those edits with the scale-aware guard and the 0.3 to 3x default search.</figcaption>
   </figure>
   <figure class="figure">
     <img src="{data_uri(f"{CF}/z_separation.png")}" alt="Separation of marked and unmarked scores" loading="lazy">
