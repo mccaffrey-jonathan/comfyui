@@ -1,0 +1,28 @@
+# Publishes a new version to the Comfy Registry (registry.comfy.org) whenever the
+# version in pyproject.toml changes on main. Requires:
+#   1. a publisher account on https://registry.comfy.org and its id in [tool.comfy].PublisherId
+#   2. a registry API key stored as the repository secret REGISTRY_ACCESS_TOKEN
+name: Publish to Comfy Registry
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["pyproject.toml"]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  publish-node:
+    name: Publish custom node to the registry
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'mccaffrey-jonathan' }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Publish custom node
+        uses: Comfy-Org/publish-node-action@v1
+        with:
+          personal_access_token: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
