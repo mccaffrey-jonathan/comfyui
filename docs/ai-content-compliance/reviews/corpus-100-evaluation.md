@@ -2,7 +2,8 @@
 
 Scheme under test: `org.comfyui.ringmark.v1`
 (`custom_nodes/comfyui_durable_watermark/durable_watermark/core.py`, pure numpy/scipy).
-Date: 2026-09-17. CPU only, 4 workers. No watermark code was modified for this evaluation.
+Date: 2026-09-17. CPU only, 4 workers. No watermark code was modified for this evaluation
+(sections 1 to 7); section 8, added afterwards, re-measures the edits affected by the fixes it motivated.
 
 Raw numbers: [`corpus-100-results.json`](corpus-100-results.json) (per image, per condition, per
 transform). Corpus list: [`corpus-100-manifest.json`](corpus-100-manifest.json). Harness:
@@ -448,3 +449,78 @@ gate behind the z gate held on all 14 700 positive detections, so a system can s
 "detected but no payload" as "ours, source unknown". And presence and attribution should be
 configured separately: the gap between 91.7 % detection and 81.9 % payload recovery at strength
 1.0 is the whole design space, and one setting for both wastes either fidelity or reliability.
+
+---
+
+## 8. Post-fix verification (same corpus, revised core)
+
+Recommendations 1 to 3 above were acted on after sections 1 to 7 were written (this section was added by the maintainer, not the reviewer): the ring guard in
+`_features()` now scales with the candidate scale (half the expected fine steps, at least one),
+the default `scale_range` is (0.4, 3.0) in the library, the node and the CLI, and
+`recommended_strength()` no longer applies the texture boost when the flat fraction is above 0.3.
+A regression test embeds at 512 px, upscales 2.6x and requires detection with the scale
+estimated within 0.1. The ten edits most affected were then re-run over all 100 images with key 0 (`corpus-100-postfix.json`)
+(payload correct, percent of 100 images; "before" is the table in section 4):
+
+| edit | s1.0 before | s1.0 after | s1.5 before | s1.5 after | adaptive before | adaptive after | detect s1.0 before | after |
+|---|---|---|---|---|---|---|---|---|
+| identity | 98% | 97% | 100% | 100% | 100% | 100% | 100% | 100% |
+| jpeg75 | 82% | 80% | 98% | 97% | 93% | 91% | 92% | 90% |
+| resize0.35 | 0% | 0% | 0% | 0% | 0% | 0% | 0% | 0% |
+| resize0.5 | 84% | 83% | 98% | 98% | 95% | 95% | 94% | 94% |
+| resize1.5 | 95% | 94% | 100% | 99% | 98% | 98% | 99% | 99% |
+| crop25%area | 51% | 51% | 74% | 75% | 83% | 84% | 85% | 81% |
+| social(1080+jpeg80) | 51% | 82% | 58% | 98% | 53% | 92% | 55% | 87% |
+| screenshot(0.9+crop+jpeg85) | 65% | 66% | 93% | 93% | 86% | 86% | 85% | 85% |
+| combo(rot15+resize0.8+jpeg75) | 50% | 48% | 85% | 84% | 79% | 76% | 67% | 64% |
+| aspect(1.2x,1.0y) | 83% | 82% | 97% | 97% | 95% | 94% | 92% | 92% |
+
+The two thumb-tier zeros, by tier:
+
+| edit | tier | n | payload before | payload after | presence after |
+|---|---|---|---|---|---|
+| crop25%area | full | 70 | 73% | 73% | 94% |
+| crop25%area | thumb | 30 | 0% | 0% | 50% |
+| social(1080+jpeg80) | full | 70 | 73% | 84% | 89% |
+| social(1080+jpeg80) | thumb | 30 | 0% | 77% | 83% |
+| resize0.35 | full | 70 | 0% | 0% | 0% |
+| resize0.35 | thumb | 30 | 0% | 0% | 0% |
+
+Images whose adaptive strength changed under the flat-fraction gate (4 of 100):
+
+| image | adaptive strength | PSNR (dB) | flat p99.9 | identity z |
+|---|---|---|---|---|
+| 4724632e_controlnet_example-2.webp | 1.5 -> 1.0 | 31.5 -> 35.1 | 9 -> 6 | 38.6 -> 35.1 |
+| 92af1a43_area_composition_square_area_for_subject-1.webp | 1.5 -> 1.0 | 26.8 -> 30.1 | 18 -> 12 | 23.9 -> 20.3 |
+| 9300d7d0_flux_canny_model_example-2.webp | 1.5 -> 1.0 | 34.3 -> 37.9 | 18 -> 12 | 20.3 -> 14.1 |
+| b032b46a_sd3.5_large_canny_controlnet_example-2.webp | 1.5 -> 1.0 | 26.1 -> 29.6 | 20 -> 13 | 15.2 -> 9.9 |
+
+Negatives under the wider search: unmarked negatives with the 0.4-3x search: n = 900, max z = 3.44, mean 0.027, sd 1.036, at z >= 5: 0. Median detection time in this re-run (four parallel
+workers): 1.48 s per image at up to 1024 px, unchanged within noise from the original run;
+the single-condition timing in the table below puts the cost of the wider ceiling at about 8 %.
+
+**Why the floor stayed at 0.4.** Three candidate defaults were compared on all 100 images at
+strength 1.0, key 0 (`corpus-100-range-choice.json`). A wider search raises the maximum of the
+96-key null, which lowers every z slightly, and the 0.3 floor costs 3 to 4 points of payload
+recovery on the clean and JPEG-75 channels for a gain that only shows on downscales below 0.4x:
+
+| edit | range | payload | presence | z median | thumb payload | mean time |
+|---|---|---|---|---|---|---|
+| identity | (0.4, 2.5) | 98% | 100% | 20.2 | 100% | 1.48 s |
+| identity | (0.4, 3.0) | 97% | 100% | 20.3 | 97% | 1.67 s |
+| identity | (0.3, 3.0) | 94% | 99% | 19.1 | 93% | 1.87 s |
+| jpeg75 | (0.4, 2.5) | 82% | 91% | 14.7 | 87% | 1.55 s |
+| jpeg75 | (0.4, 3.0) | 80% | 90% | 14.6 | 87% | 1.68 s |
+| jpeg75 | (0.3, 3.0) | 78% | 90% | 14.0 | 83% | 1.87 s |
+| social(1080+jpeg80) | (0.4, 2.5) | 59% | 62% | 10.7 | 0% | 1.59 s |
+| social(1080+jpeg80) | (0.4, 3.0) | 82% | 87% | 10.8 | 77% | 1.72 s |
+| social(1080+jpeg80) | (0.3, 3.0) | 82% | 87% | 10.8 | 77% | 1.92 s |
+
+The 0.3 floor remains available per call (`--min-scale 0.3` on the CLI, `min_scale` on the node)
+for detection services that expect heavy downscaling.
+
+Not acted on: stepping strength down to 0.75 on flat, low-energy images (robustness on flat
+content is already the weakest case), and eroding the texture map before the mask blur, which was
+tried during the first review round and cost about three z-points and JPEG-75 payload recovery on
+flat cartoons for a smaller gain than the local cap that shipped. The remaining recommendations
+(prompt-diverse GPU corpus, a 10^5 negative set) are open.
