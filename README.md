@@ -143,6 +143,14 @@ small custom node; `content_credentials.manifest.sign_image_bytes` accepts any
 python -m pytest -q
 ```
 
+## Trademarks
+
+"C2PA" and "Content Credentials" are trademarks of the Coalition for Content Provenance and
+Authenticity. This pack uses the names to describe the standard it implements through
+[c2pa-python](https://github.com/contentauth/c2pa-python); it is not affiliated with or endorsed by
+the C2PA, makes no conformance claim, and does not use the Content Credentials icon. Check the
+C2PA trademark guidelines before naming a product or service after it.
+
 ## License and disclaimer
 
 Apache License 2.0 (see `LICENSE` and `NOTICE`). Provided as is, without warranty or liability,
