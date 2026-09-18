@@ -11,7 +11,7 @@ California SB 942 "latent disclosure ... extraordinarily difficult to remove").
 * **Frequency-domain, training-free, pure numpy/scipy.** No model weights, no GPU, ~0.8 s to
   embed and ~2 s to detect a 768 px image on one CPU core. Every line is auditable.
 * **Invariant / robust to:** rotation (any angle, exact for 90-degree steps), flips,
-  translation and cropping, uniform rescaling (0.3x to 3x searched), hue / saturation /
+  translation and cropping, uniform rescaling (0.4x to 3x searched by default, 0.3x opt-in), hue / saturation /
   brightness / contrast / gamma / grayscale, JPEG (payload to about q75-q90 and presence to about
   q50-q60 at default strength, depending on content and key), noise, blur, sharpening, and mild
   anisotropic scaling (optional search).
@@ -143,8 +143,10 @@ wrong-key detections the largest presence score was z = 3.9 (threshold 5): zero 
 The 64-bit payload is markedly weaker (76 % identity, 30-40 % after JPEG 60-75) and is not
 recommended where the payload matters. The corpus run also exposed a hard 2x upscale ceiling in
 the detector's ring guard (fixed: the guard now scales with the hypothesis) and motivated widening
-the default scale search from 0.4-2.5x to 0.3-3x at about 25 % more detection time; see the
-report's post-fix section for the re-measured edits.
+the default scale search from 0.4-2.5x to 0.4-3x (about 8 % more detection time; a 0.3x floor
+is available with `--min-scale 0.3` / the node's `min_scale`, but it costs 3-4 points of clean-channel
+payload recovery because the wider search raises the null maximum); see the report's post-fix
+section for the re-measured edits.
 
 **Limitations.** Like every post-hoc watermark (SynthID and TrustMark included) it does not
 survive diffusion regeneration, adversarial spectral attacks, or averaging many images marked

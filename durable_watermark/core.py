@@ -723,7 +723,7 @@ def detect(
     image: np.ndarray,
     cfg: WatermarkConfig,
     expected_payload: Optional[int] = None,
-    scale_range: tuple[float, float] = (0.3, 3.0),
+    scale_range: tuple[float, float] = (0.4, 3.0),
     aspect_search: bool = False,
     z_threshold: float = 5.0,
     n_null: int = 96,

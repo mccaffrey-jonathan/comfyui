@@ -189,7 +189,7 @@ class DurableWatermarkDetect(io.ComfyNode):
                                 tooltip="Optional expected payload (same formats as the key node). Empty = key payload."),
                 io.Float.Input("z_threshold", default=5.0, min=2.0, max=20.0, step=0.5,
                                tooltip="Detection threshold on the calibrated z-score (5 ~ p < 3e-7 per image)."),
-                io.Float.Input("min_scale", default=0.3, min=0.1, max=1.0, step=0.05),
+                io.Float.Input("min_scale", default=0.4, min=0.1, max=1.0, step=0.05),
                 io.Float.Input("max_scale", default=3.0, min=1.0, max=8.0, step=0.1),
                 io.Boolean.Input("aspect_search", default=False,
                                  tooltip="Also search anisotropic rescaling (0.8-1.25). ~8x slower."),
@@ -205,7 +205,7 @@ class DurableWatermarkDetect(io.ComfyNode):
 
     @classmethod
     def execute(cls, images: torch.Tensor, key: dict, expected_payload: str = "", z_threshold: float = 5.0,
-                min_scale: float = 0.3, max_scale: float = 3.0, aspect_search: bool = False) -> io.NodeOutput:
+                min_scale: float = 0.4, max_scale: float = 3.0, aspect_search: bool = False) -> io.NodeOutput:
         cfg = _config_from_key(key)
         expect = key["payload"]
         if expected_payload:
