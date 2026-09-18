@@ -76,7 +76,7 @@ def main(argv=None) -> int:
     d.add_argument("input")
     d.add_argument("--expect", default=None, help="expected payload (int, 0xhex or string)")
     d.add_argument("--threshold", type=float, default=5.0)
-    d.add_argument("--min-scale", type=float, default=0.3)
+    d.add_argument("--min-scale", type=float, default=0.4)
     d.add_argument("--max-scale", type=float, default=3.0)
     d.add_argument("--aspect", action="store_true", help="also search anisotropic rescaling")
     d.add_argument("--json", action="store_true")
