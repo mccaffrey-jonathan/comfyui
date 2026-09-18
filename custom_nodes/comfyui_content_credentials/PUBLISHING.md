@@ -1,5 +1,11 @@
 # Publishing to the Comfy Registry
 
+Before the first registry publish, read the C2PA trademark guidelines (linked from the footer of
+c2pa.org and contentcredentials.org) and confirm that "Content Credentials" may appear in the pack
+name and node titles as descriptive use; if not, rename the pack (for example
+`ComfyUI-ProvenanceManifest`) in `pyproject.toml`, the repository name and the README before
+publishing. See `docs/ai-content-compliance/reviews/license-and-patent-review.md` on the ComfyUI branch.
+
 This pack is published from its own repository
 (https://github.com/mccaffrey-jonathan/ComfyUI-ContentCredentials) to https://registry.comfy.org,
 which ComfyUI-Manager and the ComfyUI desktop app install from.

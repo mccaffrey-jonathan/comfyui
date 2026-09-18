@@ -142,6 +142,10 @@ Three Opus reviewers assessed the packs after the first release. Their reports a
   prioritised recommendations, operator checklist.
 * [California AI Transparency Act gap review](reviews/california-ai-transparency-act-review.md):
   requirement tables, 14 gaps, a design for the missing §22757.2 tool, operator checklist.
+* [License, trademark, patent and export review](reviews/license-and-patent-review.md): Apache-2.0
+  position inside a GPL-3.0 host, dependency licences, C2PA and Content Credentials trademark use,
+  attribution of template renders in the figures, expired foundational watermark patents and the
+  families still to check, export-control note. Not legal advice.
 * [100-render corpus evaluation](reviews/corpus-100-evaluation.md): 100 ComfyUI template
   renders, three keys, strengths 1.0 / 1.5 / adaptive, 39 edits, zero-bit and 64-bit modes,
   1,300 negative detections; 14,700 detections in all, run with `tools/eval_corpus.py`. Written

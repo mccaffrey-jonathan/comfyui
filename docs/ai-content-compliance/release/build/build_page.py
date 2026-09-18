@@ -382,6 +382,7 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
           <tr><td>Manifest registry and resolver</td><td class="no">out of scope; hook shipped</td></tr>
           <tr><td>Visible label option (§22757.3(a), EU deepfake duty)</td><td class="no">out of scope</td></tr>
           <tr><td>Soft-binding algorithm not on the C2PA registry</td><td class="part">open</td></tr>
+          <tr><td>Licence, trademark, patent and export review</td><td class="part">done: Apache-2.0 position, trademark notices, attribution; C2PA name check and FTO opinion left to the maintainer</td></tr>
           <tr><td>Robustness corpus: more keys (done, 100 renders, three keys), adversarial and print-scan tests</td><td class="part">partly open</td></tr>
         </tbody>
       </table></div>
@@ -417,7 +418,7 @@ footer {{ padding-block:24px; font-size:0.8rem; color:var(--muted); border-top:1
   </figure>
   <figure class="figure">
     <img src="{data_uri(f"{CF}/corpus_contact_sheet.jpg")}" alt="The 100-render corpus" loading="lazy">
-    <figcaption>The corpus: 70 full-size template renders followed by 30 renders shipped at 400 px.</figcaption>
+    <figcaption>The corpus: 70 full-size template renders followed by 30 renders shipped at 400 px. Renders reproduced from Comfy-Org's workflow-template packages (MIT, Copyright (c) 2023-present Comfy Org).</figcaption>
   </figure>
 </section>
 

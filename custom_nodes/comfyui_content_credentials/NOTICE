@@ -21,5 +21,18 @@ detection thresholds remain entirely the responsibility of the user.
 
 Third-party components used at run time are distributed under their own
 licenses: c2pa-python (MIT OR Apache-2.0), cryptography (Apache-2.0 OR BSD-3),
-numpy (BSD-3), scipy (BSD-3), Pillow (MIT-CMU). ComfyUI itself is GPL-3.0; these
-packs are separate works that use its public custom-node API.
+numpy (BSD-3), scipy (BSD-3), Pillow (MIT-CMU). None is redistributed here.
+
+ComfyUI itself is GPL-3.0. These packs are licensed Apache-2.0, which is
+compatible with GPL-3.0: a combination of the packs with ComfyUI is available
+under GPL-3.0 terms, while the pack files themselves remain Apache-2.0. The
+core libraries (durable_watermark/, content_credentials/) import nothing from
+ComfyUI and can be used on their own; only the node modules touch its API.
+
+Trademarks. "C2PA" and "Content Credentials" are trademarks of the Coalition for
+Content Provenance and Authenticity; "SynthID" is a trademark of Google LLC;
+"TrustMark" is a trademark of Adobe Inc. These names are used only to describe
+the standards and systems this software implements or is compared with. This
+project is not affiliated with, endorsed by, or certified conformant by any of
+them, and it does not use the Content Credentials icon.
+
